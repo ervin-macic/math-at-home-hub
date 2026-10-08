@@ -32,5 +32,14 @@
   "time": 2,
   "result": 25,
   "total": 37
+ },
+ "lean": {
+  "status": "verified",
+  "method": "kernel",
+  "axioms": [],
+  "toolchain": "leanprover/lean4:v4.34.1",
+  "statement": "205 is square-free and no two of the 12 residues differ by a square modulo 205",
+  "consequence": "The exponent ½(1 + log|R| / log m) then follows from Ruzsa's 1984 construction (not formalized here).",
+  "checked_at": "2026-10-08T23:00:09+00:00"
  }
 }

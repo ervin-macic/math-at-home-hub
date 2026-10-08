@@ -1,6 +1,6 @@
 {
  "schema": "math-at-home/board@1",
- "generated_at": "2026-10-08T14:46:15+00:00",
+ "generated_at": "2026-10-08T23:00:09+00:00",
  "catalog_as_of": "2026-10-07",
  "totals": {
   "contributors": 1,
@@ -8,7 +8,8 @@
   "minutes": 10.3,
   "tokens": 764804,
   "verified": 1,
-  "discoveries": 0
+  "discoveries": 0,
+  "lean_verified": 1
  },
  "contributors": [
   {
@@ -45,7 +46,12 @@
    "value": "0.73341180",
    "detail": "m = 205, |R| = 12: exponent ½(1 + log|R|/log m) = 0.73341180 (classical record 0.733412, overall 0.75806770413).",
    "points": 37,
-   "issue_url": "https://github.com/ervin-macic/math-at-home-hub/issues/1"
+   "issue_url": "https://github.com/ervin-macic/math-at-home-hub/issues/1",
+   "lean": {
+    "status": "verified",
+    "method": "kernel",
+    "toolchain": "leanprover/lean4:v4.34.1"
+   }
   }
  ],
  "feed": [
@@ -61,7 +67,12 @@
    "value": "0.73341180",
    "detail": "m = 205, |R| = 12: exponent ½(1 + log|R|/log m) = 0.73341180 (classical record 0.733412, overall 0.75806770413).",
    "points": 37,
-   "issue_url": "https://github.com/ervin-macic/math-at-home-hub/issues/1"
+   "issue_url": "https://github.com/ervin-macic/math-at-home-hub/issues/1",
+   "lean": {
+    "status": "verified",
+    "method": "kernel",
+    "toolchain": "leanprover/lean4:v4.34.1"
+   }
   }
  ],
  "problems": [
@@ -178,7 +189,12 @@
    "verdict": "valid",
    "points": 37,
    "issue_url": "https://github.com/ervin-macic/math-at-home-hub/issues/1",
-   "recorded_at": "2026-10-08T14:46:15+00:00"
+   "recorded_at": "2026-10-08T14:46:15+00:00",
+   "lean": {
+    "status": "verified",
+    "method": "kernel",
+    "toolchain": "leanprover/lean4:v4.34.1"
+   }
   }
  ]
 }
