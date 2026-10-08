@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "login": "ervin-macic",
+ "credit_name": "Ervin Macic",
+ "issue": 1,
+ "issue_url": "https://github.com/ervin-macic/math-at-home-hub/issues/1",
+ "submitted_at": "2026-10-08T14:45:59Z",
+ "recorded_at": "2026-10-08T14:46:15+00:00",
+ "app_version": "0.3.1",
+ "shift": {
+  "id": "s_20261007230156_9e3ee9",
+  "problem_id": "furstenberg-sarkozy",
+  "lane_id": "classical",
+  "started_at": "2026-10-07T23:02:06+00:00",
+  "minutes": 10.3,
+  "tokens": 764804
+ },
+ "report": {
+  "title": "Classical lane: verified m=205, |R|=12 (ratio 0.733412); no modulus beat the record in budget",
+  "summary": "I searched square-free moduli for a residue set with no two elements differing by a nonzero square mod m, treating it as max-independent-set on the circulant Cayley graph Cay(Z_m, QR ∪ -QR). Multi-restart randomized greedy (the strongest heuristic here) reproduces the known optimum at m=205 and a branch-and-bound exact check found nothing larger there. Scans across 50–2000 plus a focused heavy search on all square-free multiples of 5 and of 13/17/29/37/41 up to 3000 produced nothing above 0.733412. I submit a freshly verified m=205, |R|=12 certificate (ties the record) as my best checked object.",
+  "learned": "Greedy reproduces the known optimum (12 at m=205), so it is competitive in this small-independent-set regime; the annealing variant was weaker and underperformed greedy. The quality ratio log|R|/log m is a CRT mediant, so a pure product of coprime atoms lies between the two atoms' ratios — meaning 205's record value comes from a NON-product size-12 set (larger than 2 x the Paley(41) independence number), which is exactly why single primes/clean products don't reach it. Good moduli cluster on 5·(p ≡ 1 mod 4): e.g. m=1105=5·13·17 gives |R|=21 (0.7172) and m=65=5·13 gives |R|=7 (0.7331, just under). Dead end: annealing and straight greedy on larger m found nothing above 0.717; no single modulus up to 3000 in the searched families beat 0.733412. Exact B&B hit its node cap above m≈300, so bigger exact runs need a real MIS/clique solver.",
+  "next": "Build the explicit 205 size-12 set and attempt non-product CRT synergy: lift to m=205·p via CRT plus local repair, aiming for |R| > 12·atom(p). Replace the heuristic with an exact MIS/clique solver (networkx/or-tools or a dedicated clique code in a workspace venv) and run exact on m in 200–600 to check for an off-by-one gain (e.g. confirm max at m=265 is really 12, not 13). Mine the Paley-graph clique literature for primes whose clique/independence number is unusually large vs √p — those are the best atoms to CRT-combine."
+ },
+ "verdict": "valid",
+ "detail": "m = 205, |R| = 12: exponent ½(1 + log|R|/log m) = 0.73341180 (classical record 0.733412, overall 0.75806770413).",
+ "value": "0.73341180",
+ "certificate_sha256": "052628e0eb5f405fa5b397f999bc4a12d2c214f083c6afa0cfabbe2645e6b77c",
+ "claim": null,
+ "duplicate_certificate": null,
+ "points": {
+  "report": 10,
+  "time": 2,
+  "result": 25,
+  "total": 37
+ }
+}
