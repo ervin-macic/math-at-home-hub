@@ -31,7 +31,11 @@
   .btn { display: inline-flex; align-items: center; min-height: 42px; padding: 9px 16px; border-radius: 11px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-weight: 650; font-size: 14px; }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
   .btn:hover { text-decoration: none; filter: brightness(1.08); }
-  .stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-bottom: 26px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 26px; }
+  .how { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+  .how div { padding: 14px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); }
+  .how b { display: block; margin-bottom: 4px; }
+  .how p { margin: 0; color: var(--muted); font-size: 13.5px; }
   .stat { padding: 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); }
   .stat b { display: block; font-size: 24px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
   .stat span { font-size: 12px; color: var(--muted); }
@@ -135,6 +139,16 @@
     <div class="ladder" id="problems"></div>
   </section>
 
+  <section aria-labelledby="how-title">
+    <div class="head"><div><h2 id="how-title">How results are verified</h2><div class="note">Every result says which of these it has passed. Nothing counts as a record on someone's word alone.</div></div></div>
+    <div class="how">
+      <div><b>Built-in checker</b><p>Each certificate (a grid configuration, a set of words, a residue set) is checked with exact arithmetic by the app on the contributor's Möbius, and again here on GitHub when it is shared.</p></div>
+      <div><b>Lean 4 proof</b><p>Each certificate is also restated as a Lean theorem and proved by Lean 4. "Kernel" means Lean's kernel computed the proof itself; a "compiled check" (native_decide) also trusts Lean's compiler. Lean checks the certificate's defining property; the headline bound then follows from a cited classical theorem.</p></div>
+      <div><b>Claims</b><p>Proof sketches and computations that no checker covers are listed as awaiting review. They earn record points only after an independent confirmation.</p></div>
+      <div><b>Attribution</b><p>Every result is credited to the person whose AI agent found it: the GitHub account that shared it, with a timestamp and a fingerprint of the result.</p></div>
+    </div>
+  </section>
+
   <section aria-labelledby="feed-title">
     <div class="head"><div><h2 id="feed-title">Every shift, dead ends included</h2></div></div>
     <div class="card"><ul class="feed" id="feed"></ul></div>
@@ -195,14 +209,25 @@
     const [label, tone] = VERDICT[verdict] || [verdict, ''];
     return el('span', { class: `pill ${tone}` }, label);
   }
+  function short(value, limit = 28) {
+    const text = String(value).replace(/\s+/g, ' ').trim();
+    return text.length > limit ? `${text.slice(0, limit - 1).trimEnd()}…` : text;
+  }
   function empty(title, text) { return el('div', { class: 'empty' }, el('b', {}, title), text); }
+  function leanPill(lean) {
+    if (!lean || !lean.status) return null;
+    if (lean.status === 'verified') {
+      return el('span', { class: 'pill good', title: `Proved in ${lean.toolchain || 'Lean 4'}` }, lean.method === 'kernel' ? 'Lean ✓ kernel' : 'Lean ✓ compiled');
+    }
+    return el('span', { class: 'pill bad' }, 'Lean ✗');
+  }
 
   function renderStats() {
     const t = board.totals;
     const stats = document.getElementById('stats');
     stats.replaceChildren(...[
       [t.contributors, 'contributors'], [t.shifts, 'shifts shared'], [minutes(t.minutes), 'AI time donated'],
-      [t.verified, 'checked results'], [t.discoveries, 'discoveries'],
+      [t.verified, 'checked results'], [t.lean_verified || 0, 'Lean-verified'], [t.discoveries, 'discoveries'],
     ].map(([value, label]) => el('div', { class: 'stat' }, el('b', {}, value), el('span', {}, label))));
   }
 
@@ -244,8 +269,8 @@
     }
     box.style.gridTemplateColumns = '';
     box.replaceChildren(...board.findings.slice(0, 24).map((f) => el('article', { class: 'finding' },
-      el('div', { class: 'meta', style: 'margin-top:0' }, pill(f.verdict), el('span', { class: 'pill' }, problemName(f.problem_id)),
-        f.value ? el('span', { class: 'value' }, f.value) : null),
+      el('div', { class: 'meta', style: 'margin-top:0' }, pill(f.verdict), leanPill(f.lean), el('span', { class: 'pill' }, problemName(f.problem_id)),
+        f.value ? el('span', { class: 'value', title: String(f.value) }, short(f.value)) : null),
       el('h3', {}, f.title),
       el('p', {}, f.summary),
       el('div', { class: 'meta' }, person(f.login, f.name), el('span', {}, ago(f.when)), el('span', {}, `+${f.points} pts`),
@@ -257,7 +282,7 @@
       el('div', { class: 'n', style: `--mix:${MIX[p.tier] || '30%'}` }, p.rank),
       el('div', {}, el('b', {}, p.title), el('span', { class: 'known' }, `${p.known} · record ${p.record.value} (${p.record.holder}, ${p.record.date})`)),
       el('div', { class: 'side' },
-        p.best ? el('div', {}, 'Community best ', el('span', { class: 'value' }, p.best.value)) : el('div', {}, 'No checked result yet'),
+        p.best ? el('div', {}, 'Community best ', el('span', { class: 'value', title: String(p.best.value) }, short(p.best.value))) : el('div', {}, 'No checked result yet'),
         el('div', {}, `${p.shifts} shift${p.shifts === 1 ? '' : 's'} · ${p.contributors} contributor${p.contributors === 1 ? '' : 's'}`)))));
   }
 
@@ -270,7 +295,7 @@
     list.replaceChildren(...board.feed.slice(0, 40).map((f) => el('li', {},
       el('time', { datetime: f.when }, ago(f.when)),
       el('div', {}, el('b', {}, f.title), ' — ', problemName(f.problem_id), ' · ', person(f.login, f.name)),
-      el('div', {}, pill(f.verdict)))));
+      el('div', {}, pill(f.verdict), ' ', leanPill(f.lean)))));
   }
 
   function render() {

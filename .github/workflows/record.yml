@@ -35,6 +35,23 @@ jobs:
       - name: Check and record
         run: python scripts/ingest.py process
 
+      - name: Cache the Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan
+          key: elan-leanprover-lean4-v4.34.1
+
+      - name: Install Lean 4 (pinned)
+        run: |
+          if [ ! -x "$HOME/.elan/bin/lean" ]; then
+            curl -sSfL https://raw.githubusercontent.com/leanprover/elan/v4.2.4/elan-init.sh -o elan-init.sh
+            sh elan-init.sh -y --no-modify-path --default-toolchain leanprover/lean4:v4.34.1
+          fi
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Check certificates in Lean
+        run: python scripts/lean_check.py
+
       - name: Publish the ledger
         run: |
           git config user.name "github-actions[bot]"

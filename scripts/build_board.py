@@ -46,7 +46,15 @@ def _public(record: dict) -> dict:
     "detail": record.get("detail", ""),
     "points": record["points"]["total"],
     "issue_url": record.get("issue_url"),
+    "lean": _lean(record),
   }
+
+
+def _lean(record: dict) -> dict | None:
+  result = record.get("lean")
+  if not isinstance(result, dict):
+    return None
+  return {"status": result.get("status"), "method": result.get("method"), "toolchain": result.get("toolchain")}
 
 
 def _better(problem: dict, candidate, current) -> bool:
@@ -133,6 +141,7 @@ def build(root: Path = ROOT, now: datetime | None = None) -> dict:
       "tokens": sum(int(r["shift"].get("tokens") or 0) for r in records),
       "verified": sum(1 for r in records if r["verdict"] in ("valid", "side_record", "record")),
       "discoveries": sum(1 for r in records if r["verdict"] in DISCOVERY_VERDICTS),
+      "lean_verified": sum(1 for r in records if (r.get("lean") or {}).get("status") == "verified"),
     },
     "contributors": contributors,
     "findings": [_public(r) for r in records if r["verdict"] in FINDING_VERDICTS][:MAX_FEED],
@@ -140,7 +149,8 @@ def build(root: Path = ROOT, now: datetime | None = None) -> dict:
     "problems": sorted(problem_view.values(), key=lambda p: p["rank"]),
     "recent_records": [
       {"shift_id": r["shift"]["id"], "login": r["login"], "verdict": r["verdict"],
-       "points": r["points"]["total"], "issue_url": r.get("issue_url"), "recorded_at": r["recorded_at"]}
+       "points": r["points"]["total"], "issue_url": r.get("issue_url"), "recorded_at": r["recorded_at"],
+       "lean": _lean(r)}
       for r in records[:MAX_RECENT]
     ],
   }

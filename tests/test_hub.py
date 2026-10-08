@@ -9,12 +9,14 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import build_board  # noqa: E402
 import ingest  # noqa: E402
+import lean_check  # noqa: E402
 from mathathome import problems, submission  # noqa: E402
 
 
@@ -169,10 +171,87 @@ class IngestTests(unittest.TestCase):
     self.assertEqual(len(board["problems"]), 5)
 
 
+class LeanCheckTests(unittest.TestCase):
+  def setUp(self):
+    self.tmp = tempfile.TemporaryDirectory()
+    self.root = Path(self.tmp.name)
+    self.outcome = mock.patch.object(lean_check, "OUTCOME", self.root / ".hub-outcome.json")
+    self.outcome.start()
+
+  def tearDown(self):
+    self.outcome.stop()
+    self.tmp.cleanup()
+
+  def record_certificate(self, cert, shift_id="s_20261008013700_ab12cd", number=7, problem_id="no-three-in-line"):
+    body = make_body(shift_id=shift_id, problem_id=problem_id, certificate=cert)["body"]
+    outcome = ingest.process(issue(body, number=number), self.root)
+    ingest.write(outcome, self.root)
+    (self.root / ".hub-outcome.json").write_text(json.dumps({k: v for k, v in outcome.items() if k != "certificate"}))
+    return outcome
+
+  def stored(self, shift_id="s_20261008013700_ab12cd"):
+    return json.loads((self.root / "data" / "records" / "ada-l" / f"{shift_id}.json").read_text())
+
+  def test_kernel_proof_is_recorded_on_record_board_and_reply(self):
+    self.record_certificate({"n": 6, "points": no3_solution(6)})
+    calls = []
+    def runner(source, timeout):
+      calls.append(source)
+      return 0, "'MathAtHome.NoThreeInLine.certificate_valid' does not depend on any axioms"
+    lean_check.main(self.root, runner)
+    lean = self.stored()["lean"]
+    self.assertEqual((lean["status"], lean["method"]), ("verified", "kernel"))
+    self.assertIn("decide +kernel", calls[0])
+    board = json.loads((self.root / "docs" / "data" / "board.json").read_text())
+    self.assertEqual(board["totals"]["lean_verified"], 1)
+    self.assertEqual(board["findings"][0]["lean"]["status"], "verified")
+    self.assertEqual(board["recent_records"][0]["lean"]["method"], "kernel")
+    outcome = json.loads((self.root / ".hub-outcome.json").read_text())
+    self.assertIn("lean-verified", outcome["labels"])
+    self.assertIn("Lean 4 ✓ (kernel)", outcome["message"])
+    lean_check.main(self.root, runner)
+    self.assertEqual(len(calls), 1, "already checked records are not re-run")
+
+  def test_refutation_does_not_fall_back(self):
+    bad = no3_solution(6)
+    bad[0], bad[1] = [1, 1], [2, 2]
+    self.record_certificate({"n": 6, "points": bad})
+    calls = []
+    def runner(source, timeout):
+      calls.append(source)
+      return 1, "Certificate.lean:31:56: error: Tactic `decide` proved that the proposition\n  valid n points = true\nis false"
+    lean_check.main(self.root, runner)
+    self.assertEqual(self.stored()["lean"]["status"], "failed")
+    self.assertEqual(len(calls), 1)
+
+  def test_timeout_falls_back_to_the_compiled_check(self):
+    self.record_certificate({"modulus": 205, "residues": [0, 2, 8, 14, 77, 79, 85, 96, 103, 109, 111, 181]}, problem_id="furstenberg-sarkozy")
+    answers = [None, (0, "'certificate_valid' depends on axioms: [certificate_valid._native.native_decide.ax_1_1]")]
+    sources = []
+    def runner(source, timeout):
+      sources.append(source)
+      return answers.pop(0)
+    lean_check.main(self.root, runner)
+    lean = self.stored()["lean"]
+    self.assertEqual((lean["status"], lean["method"]), ("verified", "native"))
+    self.assertIn("native_decide", sources[1])
+    self.assertEqual(lean["axioms"], ["certificate_valid._native.native_decide.ax_1_1"])
+
+  def test_real_lean_when_available(self):
+    import shutil
+    if shutil.which("lean") is None:
+      self.skipTest("lean is not installed")
+    self.record_certificate({"modulus": 205, "residues": [0, 2, 8, 14, 77, 79, 85, 96, 103, 109, 111, 181]}, problem_id="furstenberg-sarkozy")
+    lean_check.main(self.root)
+    lean = self.stored()["lean"]
+    self.assertEqual((lean["status"], lean["method"], lean["axioms"]), ("verified", "kernel", []))
+
+
 class VendoredCopyTests(unittest.TestCase):
   def test_matches_the_app_when_both_are_present(self):
     app = ROOT.parent
     pairs = {"catalog.json": "catalog.json", "engine/scrub.py": "scrub.py", "engine/submission.py": "submission.py",
+             "engine/lean.py": "lean.py",
              "engine/verify/c7.py": "verify/c7.py", "engine/verify/no3line.py": "verify/no3line.py",
              "engine/verify/sqdiff.py": "verify/sqdiff.py"}
     if not (app / "engine").is_dir():
