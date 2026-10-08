@@ -48,6 +48,8 @@
   .seg button[aria-pressed="true"] { background: var(--bg); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
   .seg button:focus-visible, .btn:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .card { border-radius: 16px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
+  /* Never clip a column: if the table is still wider than a small phone, it scrolls sideways. */
+  #donors { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th { text-align: left; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 12px 14px; border-bottom: 1px solid var(--border); }
   td { padding: 12px 14px; border-top: 1px solid var(--border); vertical-align: middle; }
@@ -58,6 +60,7 @@
   tr.top2 .rank, tr.top3 .rank { background: color-mix(in srgb, var(--accent) 35%, var(--surface)); }
   .who b { display: block; }
   .who span { font-size: 12.5px; color: var(--muted); }
+  .who .sub { display: none; }
   .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .finding { padding: 15px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); }
   .finding h3 { margin: 8px 0 4px; font-size: 15.5px; letter-spacing: -0.01em; }
@@ -86,6 +89,12 @@
     .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .grid { grid-template-columns: 1fr; }
     .hide-sm { display: none; }
+    th, td { padding: 10px 8px; }
+    th { letter-spacing: .03em; }
+    th:first-child, td:first-child { padding-left: 12px; }
+    th:last-child, td:last-child { padding-right: 12px; }
+    .who b, .who span { overflow-wrap: anywhere; }
+    .who .sub { display: block; margin-top: 2px; }
     .hero-inner { grid-template-columns: 1fr; }
     .feed li { grid-template-columns: 1fr; gap: 2px; }
     .problem { grid-template-columns: 42px minmax(0, 1fr); }
@@ -241,17 +250,21 @@
       box.replaceChildren(empty('No donors yet in this period', 'Install Math@Home, run a shift, and share it to appear here.'));
       return;
     }
+    // Phones show rank, contributor and points as columns, and the other
+    // figures as a line under the name, so no column is ever cut off.
     const head = el('tr', {}, el('th', {}, '#'), el('th', {}, 'Contributor'), el('th', { class: 'num' }, 'Points'),
-      el('th', { class: 'num' }, 'AI time'), el('th', { class: 'num hide-sm' }, 'Shifts'),
-      el('th', { class: 'num hide-sm' }, 'Checked'), el('th', { class: 'num' }, 'Discoveries'));
+      el('th', { class: 'num hide-sm' }, 'AI time'), el('th', { class: 'num hide-sm' }, 'Shifts'),
+      el('th', { class: 'num hide-sm' }, 'Checked'), el('th', { class: 'num hide-sm' }, 'Discoveries'));
+    const count = (n, one, many) => `${n} ${n === 1 ? one : many}`;
     const body = rows.map((p, i) => el('tr', { class: i < 3 ? `top${i + 1}` : '' },
       el('td', {}, el('span', { class: 'rank' }, i + 1)),
-      el('td', { class: 'who' }, el('b', {}, p.name || p.login), el('span', {}, person(p.login, ''))),
+      el('td', { class: 'who' }, el('b', {}, p.name || p.login), el('span', {}, person(p.login, '')),
+        el('span', { class: 'sub' }, `${minutes(p.minutes[windowKey])} donated · ${count(p.shifts, 'shift', 'shifts')} · ${p.verified} checked · ${count(p.discoveries, 'discovery', 'discoveries')}`)),
       el('td', { class: 'num' }, p.points[windowKey].toLocaleString()),
-      el('td', { class: 'num' }, minutes(p.minutes[windowKey])),
+      el('td', { class: 'num hide-sm' }, minutes(p.minutes[windowKey])),
       el('td', { class: 'num hide-sm' }, p.shifts),
       el('td', { class: 'num hide-sm' }, p.verified),
-      el('td', { class: 'num' }, p.discoveries)));
+      el('td', { class: 'num hide-sm' }, p.discoveries)));
     box.replaceChildren(el('table', {}, el('thead', {}, head), el('tbody', {}, ...body)));
   }
 
