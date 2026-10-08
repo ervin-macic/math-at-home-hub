@@ -1,0 +1,55 @@
+name: Record submissions
+
+# Issue text is untrusted. It reaches Python only through the event file
+# ($GITHUB_EVENT_PATH); never interpolate issue fields into a run: script.
+on:
+  issues:
+    types: [opened, edited, reopened]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: community-ledger
+  cancel-in-progress: false
+
+jobs:
+  record:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.body, 'math-at-home:submission')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the checkers' one dependency
+        run: python -m pip install --quiet "numpy>=1.26,<3"
+
+      - name: Check and record
+        run: python scripts/ingest.py process
+
+      - name: Publish the ledger
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data docs/data
+          if git diff --cached --quiet; then exit 0; fi
+          git commit --quiet -m "Update community ledger"
+          for attempt in 1 2 3; do
+            if git pull --rebase --quiet origin main && git push --quiet origin HEAD:main; then exit 0; fi
+            sleep 5
+          done
+          exit 1
+
+      - name: Reply on the issue
+        if: github.event_name == 'issues'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/ingest.py notify

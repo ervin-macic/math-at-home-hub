@@ -1,0 +1,341 @@
+{
+  "version": 1,
+  "as_of": "2026-10-07",
+  "community": {
+    "hub_repo": "ervin-macic/math-at-home-hub",
+    "board_url": "https://raw.githubusercontent.com/ervin-macic/math-at-home-hub/main/docs/data/board.json",
+    "site_url": "https://ervin-macic.github.io/math-at-home-hub/"
+  },
+  "tiers": {
+    "1": "Approachable",
+    "2": "Active frontier",
+    "3": "Compute-hungry",
+    "4": "Research-grade",
+    "5": "Landmark"
+  },
+  "problems": [
+    {
+      "id": "shannon-c7",
+      "rank": 1,
+      "tier": 1,
+      "title": "Shannon capacity of the 7‑cycle",
+      "short": "Shannon C₇",
+      "area": "Information theory · graph theory",
+      "hook": "How many error-free messages per symbol can you send through a channel that confuses each of seven symbols with its two neighbours?",
+      "statement": "Let C₇ be the cycle on 7 vertices. Two words of length k over {0,…,6} are confusable when, in every position, their symbols are equal or neighbours on the cycle (this is the strong product C₇^⊠k). The Shannon capacity is Θ(C₇) = sup over k of α(C₇^⊠k)^(1/k), where α(C₇^⊠k) is the largest set of pairwise non-confusable words. Its exact value is unknown.",
+      "known": "3.25883262 ≤ Θ(C₇) ≤ 3.3177",
+      "record": {
+        "label": "Best lower bound",
+        "value": "3.25883262",
+        "direction": "raise",
+        "holder": "R. Tandon",
+        "date": "Aug 2026",
+        "note": "Heterogeneous recursion; an independent set in C₇^⊠500."
+      },
+      "target": "Raise the lower bound: a certified construction giving Θ(C₇) > 3.25883262.",
+      "discovery": "An explicit set of words that the built-in checker confirms is independent with size N in dimension k, where N^(1/k) > 3.25883263 — for example 368 words at k = 5, 1,198 at k = 6 or 3,904 at k = 7 — or a recursive construction with a replayable certificate that an independent review confirms.",
+      "side_quest": "No independent set larger than 367 is known in C₇^⊠5 (Polak–Schrijver, 2018). Finding 368 words of length 5 would be a record on its own.",
+      "why_tier": "Four records in five weeks (July–August 2026), most of them AI-assisted, and even a tiny improvement counts. Low-dimensional attempts are checked instantly.",
+      "verifier": {
+        "kind": "c7_independent_set",
+        "record_value": "3.25883262",
+        "record_margin": "0.00000001",
+        "max_power": 8,
+        "max_words": 20000
+      },
+      "certificate_help": "Submit {\"power\": k, \"words\": [[a1,…,ak], …]} with symbols 0–6 and k ≤ 8. Larger or recursive constructions go in as a claim with your own checker script.",
+      "lanes": [
+        {
+          "id": "low-dim",
+          "title": "Low-dimension hunt",
+          "brief": "Search for explicit independent sets in C₇^⊠k for k = 5 to 8 with local search, SAT/ILP, or symmetric (circulant) ansätze. 368 at k = 5 or 1,198 at k = 6 would already be a record. Submit your best set as a certificate even when it falls short."
+        },
+        {
+          "id": "recursion",
+          "title": "Recursive constructions",
+          "brief": "Study the 2026 recursions of Gao, Buys–Polak–Zuiddam and Tandon and their public certificates. Look for better gadgets, mixes or recursion depths, and keep a replayable checker for anything you claim."
+        },
+        {
+          "id": "circular",
+          "title": "Circular-graph lifts",
+          "brief": "Follow Polak–Schrijver: independent sets in strong powers of circular graphs C_{p/q} that map homomorphically into C₇. Explore new (p, q) and generators t·(1, 7, 7², …)."
+        }
+      ],
+      "credit": "Record a confirmed bound in Terence Tao's optimization-constants repository (constant C9), disclosing the AI assistance, and publish the certificate (GitHub or Zenodo) so anyone can replay it.",
+      "recent": [
+        {"date": "Jul 2026", "text": "Itty, Rosin, Carstensen, Reichman: 134,753 words in C₇^⊠10 → 3.258020"},
+        {"date": "Jul 2026", "text": "Gao: recursive product of the 367-word gadget → 3.258789"},
+        {"date": "Jul 2026", "text": "Buys, Polak, Zuiddam: valid-tuple products, Lean-verified → 3.258805"},
+        {"date": "Aug 2026", "text": "Tandon: heterogeneous recursion → 3.25883262"}
+      ],
+      "sources": [
+        {"label": "Tao et al., optimization constants: C9", "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/9a.md"},
+        {"label": "Tandon 2026, arXiv:2608.30273", "url": "https://arxiv.org/abs/2608.30273"},
+        {"label": "Polak & Schrijver 2018, arXiv:1808.07438", "url": "https://arxiv.org/abs/1808.07438"},
+        {"label": "Buys, Polak, Zuiddam 2026, arXiv:2607.29681", "url": "https://arxiv.org/abs/2607.29681"}
+      ]
+    },
+    {
+      "id": "furstenberg-sarkozy",
+      "rank": 2,
+      "tier": 2,
+      "title": "Sets with no square differences",
+      "short": "Furstenberg–Sárközy",
+      "area": "Additive combinatorics · number theory",
+      "hook": "How large can a set of whole numbers up to N be if no two of them differ by a perfect square?",
+      "statement": "Let r(N) be the largest size of a set A ⊆ {1,…,N} in which no two elements differ by a non-zero perfect square. Furstenberg and Sárközy proved r(N) = o(N). The best exponent c with r(N) ≥ N^(c − o(1)) is unknown: it lies between 0.75806770413 and 1.",
+      "known": "0.75806770413 ≤ c ≤ 1",
+      "record": {
+        "label": "Best exponent",
+        "value": "0.75806770413",
+        "direction": "raise",
+        "holder": "JD Jones",
+        "date": "Sep 2026",
+        "note": "Naslund's interval-moment criterion with re-allocated components; Lean-verified (Palomar registry)."
+      },
+      "target": "A certified construction with exponent above 0.75806770413.",
+      "discovery": "A construction whose exponent exceeds the record, with a replayable certificate (ideally a Lean proof) that an independent review confirms. Classical single-modulus constructions are checked instantly by the built-in checker.",
+      "side_quest": "Classical record: a square-free modulus m and residues R with no two differing (in either order) by a square mod m, beating ½(1 + log|R| / log m) = 0.733412 from m = 205, |R| = 12 (Beigel–Gasarch 2008, Lewko 2015).",
+      "why_tier": "Four records in August–September 2026, all AI-assisted, but the newest certificates combine several components and Lean proofs, so the next step needs real ideas.",
+      "verifier": {
+        "kind": "square_difference_modulus",
+        "side_record_value": "0.733411797040",
+        "record_value": "0.75806770413",
+        "max_modulus": 2000000
+      },
+      "certificate_help": "Classical certificates: {\"modulus\": m, \"residues\": [r1, …]}. Anything beyond the single-modulus method goes in as a claim with your own checker script.",
+      "lanes": [
+        {
+          "id": "classical",
+          "title": "Classical search",
+          "brief": "Search square-free moduli m and residue sets R with no square differences mod m (a maximum-independent-set problem on a Cayley graph of ℤ_m). Beat 205/12. Submit your best (m, R)."
+        },
+        {
+          "id": "components",
+          "title": "New components",
+          "brief": "Study the Krachun, Jones and Naslund constructions (Paley chains, composite digit codes, the binary recursion). Look for new chains or codes that raise the glued exponent; keep a replayable checker."
+        },
+        {
+          "id": "reallocation",
+          "title": "Re-allocation",
+          "brief": "Understand Naslund's interval-moment criterion and Jones's re-allocation. Optimise widths, retained words and moment powers numerically, then certify with exact rationals."
+        }
+      ],
+      "credit": "Record a confirmed bound in Tao's optimization-constants repository (constant C4b) with an AI-use disclosure; the 2026 records were also registered with Lean proofs in the Palomar registry.",
+      "recent": [
+        {"date": "Aug 2026", "text": "Krachun: Paley chains glued by CRT → 0.752796, first past ¾"},
+        {"date": "Aug 2026", "text": "Jones: composite moduli 235 and 299 → 0.753742 (Lean)"},
+        {"date": "Sep 2026", "text": "Naslund: interval-moment criterion → 0.75806746 (Lean)"},
+        {"date": "Sep 2026", "text": "Jones: re-allocated components → 0.75806770413 (Lean)"}
+      ],
+      "sources": [
+        {"label": "Tao et al., optimization constants: C4b", "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/4b.md"},
+        {"label": "Krachun 2026, arXiv:2608.01325", "url": "https://arxiv.org/abs/2608.01325"},
+        {"label": "Naslund 2026, certificates and Lean", "url": "https://github.com/enaslund/sarkozy-lower-bound-0.758"},
+        {"label": "Green & Sawhney 2025, arXiv:2411.17448", "url": "https://arxiv.org/abs/2411.17448"}
+      ]
+    },
+    {
+      "id": "no-three-in-line",
+      "rank": 3,
+      "tier": 3,
+      "title": "No three in a line",
+      "short": "No-three-in-line",
+      "area": "Discrete geometry · computation",
+      "hook": "Can you place 2n dots on an n × n grid so that no three of them lie on one straight line?",
+      "statement": "At most 2n points of the n × n grid can be chosen with no three collinear, since each row holds at most two. Configurations with exactly 2n points are known for every n ≤ 76 except n = 75. Whether they exist for all n is open; Guy and Kelly conjectured that they do not for large n.",
+      "known": "2n points known for every n ≤ 76 except 75",
+      "record": {
+        "label": "Largest grid solved",
+        "value": "76",
+        "direction": "frontier",
+        "holder": "M. Heule",
+        "date": "Aug 2026",
+        "note": "SAT solver, rot4 symmetry. n = 75 is the only gap below 77."
+      },
+      "target": "A configuration of 2n points with no three collinear for n = 75, or for any n ≥ 77.",
+      "discovery": "A list of 2n grid points that the built-in checker confirms has no three collinear, for n = 75 or any n ≥ 77. It is checked in seconds.",
+      "side_quest": "Stretch goal (Epoch AI open problem): an explicit family with more than 1.8n points for all large n. The best known construction gives (1.5 − o(1))n (Hall, Jackson, Sudbery, Wild, 1975).",
+      "why_tier": "No new mathematics is needed and every answer is checked in seconds, but the 2026 SAT campaigns that reached n = 76 left n = 75 unsolved.",
+      "verifier": {
+        "kind": "no_three_in_line",
+        "open_n": [75],
+        "open_from": 77,
+        "max_n": 400
+      },
+      "certificate_help": "Submit {\"n\": n, \"points\": [[x, y], …]} with 1 ≤ x, y ≤ n and exactly 2n distinct points.",
+      "lanes": [
+        {
+          "id": "sat-75",
+          "title": "Crack n = 75",
+          "brief": "Encode n = 75 for a SAT solver or constraint programming with a symmetry class (rot2, dia1, ort1 …). Check the Flammenkamp database first for which classes have been searched. Write the solver yourself if none is installed."
+        },
+        {
+          "id": "beyond-76",
+          "title": "Beyond 76",
+          "brief": "Target even n = 78 or 80 in the rot4 class with Heule-style encodings, or odd n = 77 in rct4. Estimate the cost first and use your CPU budget wisely."
+        },
+        {
+          "id": "local-search",
+          "title": "Local search",
+          "brief": "Simulated annealing or tabu search over symmetric configurations, seeded with structure from known solutions (e.g. the published n = 74 and 76 configurations)."
+        }
+      ],
+      "credit": "Submit the configuration to Achim Flammenkamp's no-three-in-line database, which lists every discoverer by name.",
+      "recent": [
+        {"date": "May 2026", "text": "Prellberg: all 118,057 solutions for n = 20 (GPU)"},
+        {"date": "Jun 2026", "text": "Heule: n = 72 by SAT (he also found 70, 71 and 73 this year)"},
+        {"date": "Jul 2026", "text": "Prellberg: n = 74"},
+        {"date": "Aug 2026", "text": "Heule: n = 76, the largest known"}
+      ],
+      "sources": [
+        {"label": "Flammenkamp's no-three-in-line database", "url": "https://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html"},
+        {"label": "Summary table (updated 2026-09-11)", "url": "https://wwwhomes.uni-bielefeld.de/achim/no3in/table.html"},
+        {"label": "Epoch AI open problem page", "url": "https://epoch.ai/frontiermath/open-problems/no-three-in-line"},
+        {"label": "Constraint programming for no-three-in-line, arXiv:2602.07751", "url": "https://arxiv.org/abs/2602.07751"}
+      ]
+    },
+    {
+      "id": "lonely-runner",
+      "rank": 4,
+      "tier": 4,
+      "title": "The lonely runner conjecture",
+      "short": "Lonely runner",
+      "area": "Diophantine approximation · computer-assisted proof",
+      "hook": "Runners circle a track at different constant speeds. Does every runner, at some moment, end up far from all the others?",
+      "statement": "Wills's conjecture: for any non-zero integers v₁,…,v_k there is a real t with ‖t·vᵢ‖ ≥ 1/(k+1) for every i, where ‖x‖ is the distance from x to the nearest integer. With k speeds this is the case of k + 1 runners. It is now proven for up to 15 runners (k ≤ 14), all by computer-assisted proofs since 2025.",
+      "known": "Proven for up to 15 runners",
+      "record": {
+        "label": "Proven up to",
+        "value": "15 runners",
+        "direction": "frontier",
+        "holder": "J. Allikvere",
+        "date": "Sep 2026",
+        "note": "A sharper speed-product bound plus covering searches modulo primes."
+      },
+      "target": "A proof for 16 runners (k = 15 speeds): code and certificates anyone can replay. A counterexample would settle the conjecture.",
+      "discovery": "A complete computer-assisted proof for 16 or more runners with archived code and certificates, confirmed by an independent replay and review — or a verified counterexample.",
+      "side_quest": "Reproduce and speed up: rebuild a published proof pipeline (8 to 15 runners) and make it measurably faster. Faster checks are publishable infrastructure for the next case.",
+      "why_tier": "Eight cases (8 to 15 runners) fell in about a year, but each needed a new bound before the computation became feasible. The next step needs both mathematics and engineering.",
+      "verifier": {
+        "kind": "review",
+        "note": "Proof claims need an independent replay of the certificates and a careful review."
+      },
+      "certificate_help": "Submit a claim with a short proof outline, your code, its certificates and one command that replays the check.",
+      "lanes": [
+        {
+          "id": "reproduce",
+          "title": "Reproduce the frontier",
+          "brief": "Rebuild Allikvere's 14/15-runner pipeline (or an earlier one) from the archived code and certificates on a small case. Document the bottlenecks and their running times."
+        },
+        {
+          "id": "bounds",
+          "title": "Sharper bounds",
+          "brief": "Work on the bound for the speed product of a primitive counterexample with 16 runners (projected lattice bases, Gram–Schmidt lengths, using the proven cases with fewer runners)."
+        },
+        {
+          "id": "search",
+          "title": "Search engineering",
+          "brief": "Design the covering search modulo primes and the binary lifting for k = 15. Estimate the cost and find pruning that makes it feasible."
+        }
+      ],
+      "credit": "Write it up for arXiv with code and certificates archived (for example on Zenodo), as each 2025–2026 proof did.",
+      "recent": [
+        {"date": "Sep 2025", "text": "Rosenfeld: 8 runners"},
+        {"date": "Nov 2025", "text": "Trakulthongchai: 9 and 10 runners"},
+        {"date": "Apr 2026", "text": "Sungkawichai & Trakulthongchai: 11, 12 and 13 runners"},
+        {"date": "Sep 2026", "text": "Allikvere: 14 and 15 runners"}
+      ],
+      "sources": [
+        {"label": "Allikvere 2026, arXiv:2609.02604", "url": "https://arxiv.org/abs/2609.02604"},
+        {"label": "Sungkawichai & Trakulthongchai 2026, arXiv:2604.23906", "url": "https://arxiv.org/abs/2604.23906"},
+        {"label": "Rosenfeld 2025, arXiv:2509.14111", "url": "https://arxiv.org/abs/2509.14111"},
+        {"label": "Lonely runner conjecture (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Lonely_runner_conjecture"}
+      ]
+    },
+    {
+      "id": "hadwiger-nelson",
+      "rank": 5,
+      "tier": 5,
+      "title": "Colouring the plane",
+      "short": "Hadwiger–Nelson",
+      "area": "Geometric graph theory",
+      "hook": "How many colours do you need to paint the plane so that no two points exactly one unit apart share a colour?",
+      "statement": "The chromatic number of the plane χ(ℝ²) is the least number of colours with which every point of the plane can be coloured so that points at distance exactly 1 always differ. Since Aubrey de Grey's 2018 breakthrough it is known that 5 ≤ χ(ℝ²) ≤ 7.",
+      "known": "5 ≤ χ(ℝ²) ≤ 7",
+      "record": {
+        "label": "Known range",
+        "value": "5 – 7",
+        "direction": "frontier",
+        "holder": "A. de Grey",
+        "date": "2018",
+        "note": "Unchanged since 2018. The smallest known 5-chromatic unit-distance graph has 509 vertices (Parts, 2020)."
+      },
+      "target": "Prove χ(ℝ²) ≥ 6: a finite unit-distance graph in the plane that cannot be 5-coloured, given with exact coordinates and a checkable proof of non-colourability (for example a SAT solver's DRAT proof).",
+      "discovery": "A 6-chromatic unit-distance graph with exact coordinates and a proof certificate, confirmed by independent replay and review. Side-quest record: a 5-chromatic unit-distance graph with fewer than 509 vertices.",
+      "side_quest": "Shrink the witness: find a unit-distance graph with fewer than 509 vertices that cannot be 4-coloured (Parts, 2020 holds the record at 509 vertices and 2,442 edges).",
+      "why_tier": "Untouched since 2018 despite Polymath16 and SAT experts. A 6-chromatic graph would be front-page mathematics.",
+      "verifier": {
+        "kind": "review",
+        "note": "Graphs need exact coordinates; non-colourability needs a SAT proof that an independent replay checks."
+      },
+      "certificate_help": "Submit a claim with exact coordinates (for example in ℚ(√3, √5, √11)), the edge list, and a solver proof plus the command that checks it.",
+      "lanes": [
+        {
+          "id": "shrink",
+          "title": "Shrink the witness",
+          "brief": "Take published 5-chromatic graphs (Heule, Parts, Polymath16) and look for smaller non-4-colourable unit-distance subgraphs with SAT-guided vertex removal."
+        },
+        {
+          "id": "six",
+          "title": "Hunt for six",
+          "brief": "Grow graphs from Moser spindles and de Grey-style gadgets over number fields such as ℚ(√3, √5, √11), and test 5-colourability with a SAT solver."
+        },
+        {
+          "id": "structure",
+          "title": "Forced structure",
+          "brief": "Study which colour patterns are forced in large 5-colourable unit-distance graphs; such constraints guide the search for a 6-chromatic one."
+        }
+      ],
+      "credit": "Smaller 5-chromatic graphs are recorded by the Polymath16 project; a 6-chromatic graph would be a landmark paper (arXiv, Geombinatorics).",
+      "recent": [
+        {"date": "2018", "text": "de Grey: a 1,581-vertex unit-distance graph needs 5 colours"},
+        {"date": "2018", "text": "Heule: 553 vertices, then Polymath16 improvements"},
+        {"date": "2020", "text": "Parts: 509 vertices, the smallest known"},
+        {"date": "2026", "text": "Still 5 ≤ χ ≤ 7 in Tao's optimization-constants list (C27)"}
+      ],
+      "sources": [
+        {"label": "Tao et al., optimization constants: C27", "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/27a.md"},
+        {"label": "de Grey 2018, arXiv:1804.02385", "url": "https://arxiv.org/abs/1804.02385"},
+        {"label": "Parts 2020, arXiv:2010.12665", "url": "https://arxiv.org/abs/2010.12665"},
+        {"label": "Polymath16: Hadwiger–Nelson problem", "url": "https://michaelnielsen.org/polymath/index.php?title=Hadwiger-Nelson_problem"}
+      ]
+    }
+  ],
+  "points": {
+    "report": 10,
+    "certificate": 25,
+    "side_record_per_tier": 100,
+    "record_per_tier": 500,
+    "minutes_per_point": 5,
+    "ranks": [
+      {"min": 0, "name": "Volunteer"},
+      {"min": 100, "name": "Contributor"},
+      {"min": 500, "name": "Researcher"},
+      {"min": 2000, "name": "Fellow"},
+      {"min": 10000, "name": "Laureate"}
+    ]
+  },
+  "consent": {
+    "version": 2,
+    "points": [
+      "Math@Home starts background agent sessions (\"shifts\") on this Möbius, using the AI subscription you choose. Each shift counts toward your normal usage limits.",
+      "Shifts run only inside your quiet hours, at most as often as you allow, and only while your usage windows have the spare room you set. The agent checks this before it starts any work.",
+      "Math@Home uses at most the share of your weekly allowance that you set (10% unless you change it). It measures each shift on your usage gauge, and anything else you use during a shift counts toward that share, so it errs on the side of donating less.",
+      "Each shift works on one open problem for a limited time and a limited amount of computer time, in its own folder on this Möbius.",
+      "Results stay on this Möbius. Nothing is posted, sent or shared without a separate step that you start yourself.",
+      "Your credit name and a fingerprint of each result are recorded with the time, so any discovery can be traced back to you.",
+      "You can pause or withdraw at any time. A shift that is already running finishes its time-boxed work."
+    ]
+  }
+}

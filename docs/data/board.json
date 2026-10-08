@@ -1,0 +1,119 @@
+{
+ "schema": "math-at-home/board@1",
+ "generated_at": "2026-10-07T23:12:56+00:00",
+ "catalog_as_of": "2026-10-07",
+ "totals": {
+  "contributors": 0,
+  "shifts": 0,
+  "minutes": 0,
+  "tokens": 0,
+  "verified": 0,
+  "discoveries": 0
+ },
+ "contributors": [],
+ "findings": [],
+ "feed": [],
+ "problems": [
+  {
+   "id": "shannon-c7",
+   "rank": 1,
+   "title": "Shannon capacity of the 7‑cycle",
+   "short": "Shannon C₇",
+   "tier": 1,
+   "known": "3.25883262 ≤ Θ(C₇) ≤ 3.3177",
+   "record": {
+    "label": "Best lower bound",
+    "value": "3.25883262",
+    "direction": "raise",
+    "holder": "R. Tandon",
+    "date": "Aug 2026",
+    "note": "Heterogeneous recursion; an independent set in C₇^⊠500."
+   },
+   "shifts": 0,
+   "contributors": 0,
+   "minutes": 0,
+   "best": null
+  },
+  {
+   "id": "furstenberg-sarkozy",
+   "rank": 2,
+   "title": "Sets with no square differences",
+   "short": "Furstenberg–Sárközy",
+   "tier": 2,
+   "known": "0.75806770413 ≤ c ≤ 1",
+   "record": {
+    "label": "Best exponent",
+    "value": "0.75806770413",
+    "direction": "raise",
+    "holder": "JD Jones",
+    "date": "Sep 2026",
+    "note": "Naslund's interval-moment criterion with re-allocated components; Lean-verified (Palomar registry)."
+   },
+   "shifts": 0,
+   "contributors": 0,
+   "minutes": 0,
+   "best": null
+  },
+  {
+   "id": "no-three-in-line",
+   "rank": 3,
+   "title": "No three in a line",
+   "short": "No-three-in-line",
+   "tier": 3,
+   "known": "2n points known for every n ≤ 76 except 75",
+   "record": {
+    "label": "Largest grid solved",
+    "value": "76",
+    "direction": "frontier",
+    "holder": "M. Heule",
+    "date": "Aug 2026",
+    "note": "SAT solver, rot4 symmetry. n = 75 is the only gap below 77."
+   },
+   "shifts": 0,
+   "contributors": 0,
+   "minutes": 0,
+   "best": null
+  },
+  {
+   "id": "lonely-runner",
+   "rank": 4,
+   "title": "The lonely runner conjecture",
+   "short": "Lonely runner",
+   "tier": 4,
+   "known": "Proven for up to 15 runners",
+   "record": {
+    "label": "Proven up to",
+    "value": "15 runners",
+    "direction": "frontier",
+    "holder": "J. Allikvere",
+    "date": "Sep 2026",
+    "note": "A sharper speed-product bound plus covering searches modulo primes."
+   },
+   "shifts": 0,
+   "contributors": 0,
+   "minutes": 0,
+   "best": null
+  },
+  {
+   "id": "hadwiger-nelson",
+   "rank": 5,
+   "title": "Colouring the plane",
+   "short": "Hadwiger–Nelson",
+   "tier": 5,
+   "known": "5 ≤ χ(ℝ²) ≤ 7",
+   "record": {
+    "label": "Known range",
+    "value": "5 – 7",
+    "direction": "frontier",
+    "holder": "A. de Grey",
+    "date": "2018",
+    "note": "Unchanged since 2018. The smallest known 5-chromatic unit-distance graph has 509 vertices (Parts, 2020)."
+   },
+   "shifts": 0,
+   "contributors": 0,
+   "minutes": 0,
+   "best": null
+  }
+ ],
+ "recent_records": []
+}

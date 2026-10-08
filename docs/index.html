@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Math@Home · community board</title>
+<meta name="description" content="Volunteers lending their idle AI to open mathematics: top donors, findings and progress on five open problems.">
+<style>
+  :root {
+    --bg: #0d0d0d; --surface: #171717; --surface-2: #212121; --border: #2a2a2a;
+    --text: #ececec; --muted: #a8a8a8; --accent: #8b6cf7; --accent-fg: #fff; --good: #10b981; --bad: #f87171;
+    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px 64px; }
+  header.hero {
+    margin: 0 -20px 26px; padding: 44px 20px 34px;
+    background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--accent) 22%, var(--bg)) 0%, var(--bg) 62%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-inner { max-width: 1040px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; }
+  .kicker { margin: 0; font-size: 12px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  h1 { margin: 4px 0 8px; font-size: clamp(30px, 5vw, 44px); letter-spacing: -0.035em; line-height: 1.05; }
+  .lede { margin: 0; max-width: 640px; color: var(--muted); font-size: 16px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .btn { display: inline-flex; align-items: center; min-height: 42px; padding: 9px 16px; border-radius: 11px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-weight: 650; font-size: 14px; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+  .btn:hover { text-decoration: none; filter: brightness(1.08); }
+  .stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-bottom: 26px; }
+  .stat { padding: 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); }
+  .stat b { display: block; font-size: 24px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 12px; color: var(--muted); }
+  section { margin-top: 30px; }
+  .head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 12px; }
+  h2 { margin: 0; font-size: 20px; letter-spacing: -0.02em; }
+  .note { font-size: 13px; color: var(--muted); }
+  .seg { display: inline-flex; gap: 2px; padding: 3px; border-radius: 11px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border); }
+  .seg button { min-height: 36px; padding: 5px 13px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--bg); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+  .seg button:focus-visible, .btn:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card { border-radius: 16px; background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  td { padding: 12px 14px; border-top: 1px solid var(--border); vertical-align: middle; }
+  tr:first-child td { border-top: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .rank { width: 30px; height: 30px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; background: var(--surface-2); }
+  tr.top1 .rank { background: var(--accent); color: var(--accent-fg); }
+  tr.top2 .rank, tr.top3 .rank { background: color-mix(in srgb, var(--accent) 35%, var(--surface)); }
+  .who b { display: block; }
+  .who span { font-size: 12.5px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .finding { padding: 15px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); }
+  .finding h3 { margin: 8px 0 4px; font-size: 15.5px; letter-spacing: -0.01em; }
+  .finding p { margin: 0; color: var(--muted); font-size: 13.5px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin-top: 10px; font-size: 12.5px; color: var(--muted); }
+  .pill { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 680; border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); }
+  .pill.star { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+  .pill.good { color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, var(--border)); }
+  .pill.wait { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+  .pill.bad { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, var(--border)); }
+  .value { font-family: var(--mono); color: var(--text); }
+  .ladder { display: grid; gap: 10px; }
+  .problem { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); }
+  .problem .n { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; background: color-mix(in srgb, var(--accent) var(--mix), var(--surface)); }
+  .problem b { display: block; }
+  .problem .known { font-size: 13px; color: var(--muted); }
+  .problem .side { text-align: right; font-size: 13px; color: var(--muted); }
+  .feed { list-style: none; margin: 0; padding: 0; }
+  .feed li { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: 12px; padding: 11px 16px; border-top: 1px solid var(--border); font-size: 13.5px; }
+  .feed li:first-child { border-top: 0; }
+  .feed time { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .empty { padding: 34px 20px; text-align: center; color: var(--muted); }
+  .empty b { display: block; color: var(--text); font-size: 16px; margin-bottom: 4px; }
+  footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; display: grid; gap: 8px; }
+  @media (max-width: 760px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid { grid-template-columns: 1fr; }
+    .hide-sm { display: none; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .feed li { grid-template-columns: 1fr; gap: 2px; }
+    .problem { grid-template-columns: 42px minmax(0, 1fr); }
+    .problem .side { grid-column: 2; text-align: left; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <svg width="92" height="92" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="44" fill="none" stroke="#8b6cf7" stroke-opacity=".35" stroke-dasharray="3 4"/>
+      <circle cx="50" cy="50" r="31" fill="none" stroke="#8b6cf7" stroke-opacity=".35" stroke-dasharray="3 4"/>
+      <circle cx="50" cy="50" r="13" fill="#8b6cf7"/>
+      <circle cx="84" cy="22" r="4.5" fill="#fff"/><circle cx="20" cy="76" r="4" fill="#d9ccff"/>
+      <circle cx="79" cy="61" r="4" fill="#c4b2ff"/><circle cx="24" cy="38" r="4" fill="#a68cff"/><circle cx="45" cy="21" r="3.5" fill="#8b6cf7"/>
+    </svg>
+    <div>
+      <p class="kicker">Community board</p>
+      <h1>Math@Home</h1>
+      <p class="lede">Volunteers lend their AI subscription's spare capacity to five open math problems. Every result here was shared by its contributor and re-checked automatically.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/ervin-macic/math-at-home">Get the app</a>
+        <a class="btn" href="https://github.com/ervin-macic/math-at-home-hub">How the board works</a>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="stats" id="stats"></div>
+
+  <section aria-labelledby="donors-title">
+    <div class="head">
+      <div><h2 id="donors-title">Top donors</h2><div class="note">Points for honest shifts, checked certificates, records and donated AI time.</div></div>
+      <div class="seg" role="group" aria-label="Period">
+        <button type="button" data-window="7d">7 days</button>
+        <button type="button" data-window="30d">30 days</button>
+        <button type="button" data-window="all" aria-pressed="true">All time</button>
+      </div>
+    </div>
+    <div class="card" id="donors"></div>
+  </section>
+
+  <section aria-labelledby="findings-title">
+    <div class="head"><div><h2 id="findings-title">What they have found</h2><div class="note">Checked certificates, records and claims awaiting review, newest first.</div></div></div>
+    <div class="grid" id="findings"></div>
+  </section>
+
+  <section aria-labelledby="problems-title">
+    <div class="head"><div><h2 id="problems-title">The five problems</h2><div class="note">Easiest first. The record is the best known result; the community best is the best checked result shared here.</div></div></div>
+    <div class="ladder" id="problems"></div>
+  </section>
+
+  <section aria-labelledby="feed-title">
+    <div class="head"><div><h2 id="feed-title">Every shift, dead ends included</h2></div></div>
+    <div class="card"><ul class="feed" id="feed"></ul></div>
+  </section>
+
+  <footer>
+    <div>Each result is shared by its contributor from their own GitHub account and recorded by an automated check. Chats, files, usage readings and credentials never leave a contributor's Möbius.</div>
+    <div id="generated"></div>
+  </footer>
+</main>
+<script>
+(() => {
+  'use strict';
+  const VERDICT = {
+    record: ['Record', 'star'], side_record: ['Side-quest record', 'star'], confirmed: ['Confirmed', 'star'],
+    valid: ['Checked', 'good'], pending_review: ['Awaiting review', 'wait'], unchecked: ['Not checked', ''],
+    invalid: ['Rejected by checker', 'bad'], report: ['Report', ''],
+  };
+  const MIX = { 1: '18%', 2: '34%', 3: '52%', 4: '72%', 5: '100%' };
+  let board = null;
+  let windowKey = 'all';
+
+  function el(tag, attrs, ...children) {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(attrs || {})) {
+      if (key === 'class') node.className = value;
+      else if (key === 'style') node.setAttribute('style', value);
+      else node.setAttribute(key, value);
+    }
+    for (const child of children) {
+      if (child === null || child === undefined || child === false) continue;
+      node.append(child instanceof Node ? child : document.createTextNode(String(child)));
+    }
+    return node;
+  }
+  const safeUrl = (url) => (typeof url === 'string' && url.startsWith('https://github.com/') ? url : null);
+  const loginOk = (login) => typeof login === 'string' && /^[A-Za-z0-9-]{1,39}$/.test(login);
+  function person(login, name) {
+    const link = loginOk(login) ? el('a', { href: `https://github.com/${login}` }, `@${login}`) : String(login || '');
+    return name ? el('span', {}, `${name} · `, link) : el('span', {}, link);
+  }
+  function minutes(value) {
+    const m = Math.round(Number(value) || 0);
+    if (m < 60) return `${m} min`;
+    const h = Math.floor(m / 60), r = m % 60;
+    return r ? `${h} h ${r} min` : `${h} h`;
+  }
+  function ago(iso) {
+    const t = Date.parse(iso);
+    if (!t) return '';
+    const s = Math.max(0, (Date.now() - t) / 1000);
+    if (s < 3600) return `${Math.max(1, Math.round(s / 60))} min ago`;
+    if (s < 86400) return `${Math.round(s / 3600)} h ago`;
+    if (s < 86400 * 30) return `${Math.round(s / 86400)} d ago`;
+    return new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+  function pill(verdict) {
+    const [label, tone] = VERDICT[verdict] || [verdict, ''];
+    return el('span', { class: `pill ${tone}` }, label);
+  }
+  function empty(title, text) { return el('div', { class: 'empty' }, el('b', {}, title), text); }
+
+  function renderStats() {
+    const t = board.totals;
+    const stats = document.getElementById('stats');
+    stats.replaceChildren(...[
+      [t.contributors, 'contributors'], [t.shifts, 'shifts shared'], [minutes(t.minutes), 'AI time donated'],
+      [t.verified, 'checked results'], [t.discoveries, 'discoveries'],
+    ].map(([value, label]) => el('div', { class: 'stat' }, el('b', {}, value), el('span', {}, label))));
+  }
+
+  function renderDonors() {
+    const rows = board.contributors
+      .filter((p) => p.points[windowKey] > 0 || windowKey === 'all')
+      .sort((a, b) => b.points[windowKey] - a.points[windowKey] || b.minutes[windowKey] - a.minutes[windowKey])
+      .slice(0, 50);
+    const box = document.getElementById('donors');
+    if (!rows.length) {
+      box.replaceChildren(empty('No donors yet in this period', 'Install Math@Home, run a shift, and share it to appear here.'));
+      return;
+    }
+    const head = el('tr', {}, el('th', {}, '#'), el('th', {}, 'Contributor'), el('th', { class: 'num' }, 'Points'),
+      el('th', { class: 'num' }, 'AI time'), el('th', { class: 'num hide-sm' }, 'Shifts'),
+      el('th', { class: 'num hide-sm' }, 'Checked'), el('th', { class: 'num' }, 'Discoveries'));
+    const body = rows.map((p, i) => el('tr', { class: i < 3 ? `top${i + 1}` : '' },
+      el('td', {}, el('span', { class: 'rank' }, i + 1)),
+      el('td', { class: 'who' }, el('b', {}, p.name || p.login), el('span', {}, person(p.login, ''))),
+      el('td', { class: 'num' }, p.points[windowKey].toLocaleString()),
+      el('td', { class: 'num' }, minutes(p.minutes[windowKey])),
+      el('td', { class: 'num hide-sm' }, p.shifts),
+      el('td', { class: 'num hide-sm' }, p.verified),
+      el('td', { class: 'num' }, p.discoveries)));
+    box.replaceChildren(el('table', {}, el('thead', {}, head), el('tbody', {}, ...body)));
+  }
+
+  function problemName(id) {
+    const p = board.problems.find((item) => item.id === id);
+    return p ? p.short : id;
+  }
+
+  function renderFindings() {
+    const box = document.getElementById('findings');
+    if (!board.findings.length) {
+      box.replaceChildren(empty('Nothing found yet', 'Checked certificates and claims will appear here as volunteers share them.'));
+      box.style.gridTemplateColumns = '1fr';
+      return;
+    }
+    box.style.gridTemplateColumns = '';
+    box.replaceChildren(...board.findings.slice(0, 24).map((f) => el('article', { class: 'finding' },
+      el('div', { class: 'meta', style: 'margin-top:0' }, pill(f.verdict), el('span', { class: 'pill' }, problemName(f.problem_id)),
+        f.value ? el('span', { class: 'value' }, f.value) : null),
+      el('h3', {}, f.title),
+      el('p', {}, f.summary),
+      el('div', { class: 'meta' }, person(f.login, f.name), el('span', {}, ago(f.when)), el('span', {}, `+${f.points} pts`),
+        safeUrl(f.issue_url) ? el('a', { href: safeUrl(f.issue_url) }, 'Details') : null))));
+  }
+
+  function renderProblems() {
+    document.getElementById('problems').replaceChildren(...board.problems.map((p) => el('div', { class: 'problem' },
+      el('div', { class: 'n', style: `--mix:${MIX[p.tier] || '30%'}` }, p.rank),
+      el('div', {}, el('b', {}, p.title), el('span', { class: 'known' }, `${p.known} · record ${p.record.value} (${p.record.holder}, ${p.record.date})`)),
+      el('div', { class: 'side' },
+        p.best ? el('div', {}, 'Community best ', el('span', { class: 'value' }, p.best.value)) : el('div', {}, 'No checked result yet'),
+        el('div', {}, `${p.shifts} shift${p.shifts === 1 ? '' : 's'} · ${p.contributors} contributor${p.contributors === 1 ? '' : 's'}`)))));
+  }
+
+  function renderFeed() {
+    const list = document.getElementById('feed');
+    if (!board.feed.length) {
+      list.replaceChildren(el('li', { style: 'display:block' }, empty('No shifts shared yet', 'Every shared shift appears here, including honest dead ends.')));
+      return;
+    }
+    list.replaceChildren(...board.feed.slice(0, 40).map((f) => el('li', {},
+      el('time', { datetime: f.when }, ago(f.when)),
+      el('div', {}, el('b', {}, f.title), ' — ', problemName(f.problem_id), ' · ', person(f.login, f.name)),
+      el('div', {}, pill(f.verdict)))));
+  }
+
+  function render() {
+    renderStats(); renderDonors(); renderFindings(); renderProblems(); renderFeed();
+    document.getElementById('generated').textContent = `Updated ${ago(board.generated_at)} · problem status checked ${board.catalog_as_of}.`;
+  }
+
+  document.querySelectorAll('.seg button').forEach((button) => button.addEventListener('click', () => {
+    windowKey = button.dataset.window;
+    document.querySelectorAll('.seg button').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+    if (board) renderDonors();
+  }));
+
+  fetch('data/board.json', { cache: 'no-store' })
+    .then((response) => { if (!response.ok) throw new Error(String(response.status)); return response.json(); })
+    .then((data) => { board = data; render(); })
+    .catch(() => {
+      document.getElementById('stats').replaceChildren(empty('The board could not be loaded', 'Please try again in a moment.'));
+    });
+})();
+</script>
+</body>
+</html>
