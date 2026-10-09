@@ -1,6 +1,6 @@
 {
  "schema": "math-at-home/board@1",
- "generated_at": "2026-10-08T23:00:09+00:00",
+ "generated_at": "2026-10-09T10:52:49+00:00",
  "catalog_as_of": "2026-10-07",
  "totals": {
   "contributors": 1,
@@ -91,6 +91,8 @@
     "date": "Aug 2026",
     "note": "Heterogeneous recursion; an independent set in C₇^⊠500."
    },
+   "summary": "A founding question of information theory, and the smallest case nobody can compute.",
+   "live_record": null,
    "shifts": 0,
    "contributors": 0,
    "minutes": 0,
@@ -111,6 +113,8 @@
     "date": "Sep 2026",
     "note": "Naslund's interval-moment criterion with re-allocated components; Lean-verified (Palomar registry)."
    },
+   "summary": "A model case of when large sets must contain patterns, with a vast gap between what is proven and what is achieved.",
+   "live_record": null,
    "shifts": 1,
    "contributors": 1,
    "minutes": 10.3,
@@ -122,8 +126,35 @@
    }
   },
   {
-   "id": "no-three-in-line",
+   "id": "integer-multiplication",
    "rank": 3,
+   "title": "Integer multiplication below n log n",
+   "short": "Faster multiplication",
+   "tier": 2,
+   "known": "Time O(n (log n)^(1−κ)) for some κ > 0, conditional on the 2026 preprint",
+   "record": {
+    "label": "Best exponent saving κ",
+    "value": "4.609169 × 10⁻⁴",
+    "direction": "raise",
+    "holder": "icekylinx, PR #144",
+    "date": "9 Oct 2026",
+    "note": "Paired cubes and shared cores, selected by the integer-mult-bounds maintainer. Conditional on the OpenAI framework; checked by exact finite certificates and written review, not a formal proof."
+   },
+   "summary": "Multiplying big numbers may be cheaper than anyone believed since 1971; a 2026 race is testing by how much.",
+   "live_record": {
+    "kind": "integer-mult-bounds",
+    "raw": "https://raw.githubusercontent.com/CrocSwap/integer-mult-bounds/main/certificates/selected-result.json",
+    "page": "https://github.com/CrocSwap/integer-mult-bounds",
+    "tracker": "https://beyond-n-log-n.netlify.app/"
+   },
+   "shifts": 0,
+   "contributors": 0,
+   "minutes": 0,
+   "best": null
+  },
+  {
+   "id": "no-three-in-line",
+   "rank": 4,
    "title": "No three in a line",
    "short": "No-three-in-line",
    "tier": 3,
@@ -136,6 +167,8 @@
     "date": "Aug 2026",
     "note": "SAT solver, rot4 symmetry. n = 75 is the only gap below 77."
    },
+   "summary": "A century-old puzzle: computers decide how far a perfect pattern goes before it must break.",
+   "live_record": null,
    "shifts": 0,
    "contributors": 0,
    "minutes": 0,
@@ -143,7 +176,7 @@
   },
   {
    "id": "lonely-runner",
-   "rank": 4,
+   "rank": 5,
    "title": "The lonely runner conjecture",
    "short": "Lonely runner",
    "tier": 4,
@@ -156,6 +189,8 @@
     "date": "Sep 2026",
     "note": "A sharper speed-product bound plus covering searches modulo primes."
    },
+   "summary": "A simple race-track puzzle that turns out to be equivalent to deep questions across mathematics.",
+   "live_record": null,
    "shifts": 0,
    "contributors": 0,
    "minutes": 0,
@@ -163,7 +198,7 @@
   },
   {
    "id": "hadwiger-nelson",
-   "rank": 5,
+   "rank": 6,
    "title": "Colouring the plane",
    "short": "Hadwiger–Nelson",
    "tier": 5,
@@ -176,6 +211,8 @@
     "date": "2018",
     "note": "Unchanged since 2018. The smallest known 5-chromatic unit-distance graph has 509 vertices (Parts, 2020)."
    },
+   "summary": "One of the simplest unsolved questions in geometry; any progress would be front-page mathematics.",
+   "live_record": null,
    "shifts": 0,
    "contributors": 0,
    "minutes": 0,
