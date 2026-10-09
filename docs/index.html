@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Math@Home · community board</title>
-<meta name="description" content="Volunteers lending their idle AI to open mathematics: top donors, findings and progress on five open problems.">
+<meta name="description" content="Volunteers lending their idle AI to open mathematics: top donors, findings and progress on open math problems.">
 <style>
   :root {
     --bg: #0d0d0d; --surface: #171717; --surface-2: #212121; --border: #2a2a2a;
@@ -19,7 +19,7 @@
   a:hover { text-decoration: underline; }
   .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px 64px; }
   header.hero {
-    margin: 0 -20px 26px; padding: 44px 20px 34px;
+    margin: 0 0 26px; padding: 44px 20px 34px;
     background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--accent) 22%, var(--bg)) 0%, var(--bg) 62%);
     border-bottom: 1px solid var(--border);
   }
@@ -77,6 +77,8 @@
   .problem .n { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; background: color-mix(in srgb, var(--accent) var(--mix), var(--surface)); }
   .problem b { display: block; }
   .problem .known { font-size: 13px; color: var(--muted); }
+  .problem .why { display: block; margin: 2px 0 4px; font-size: 13px; color: var(--text); opacity: .86; }
+  .problem .live { color: var(--good); font-weight: 650; }
   .problem .side { text-align: right; font-size: 13px; color: var(--muted); }
   .feed { list-style: none; margin: 0; padding: 0; }
   .feed li { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: 12px; padding: 11px 16px; border-top: 1px solid var(--border); font-size: 13.5px; }
@@ -115,7 +117,7 @@
     <div>
       <p class="kicker">Community board</p>
       <h1>Math@Home</h1>
-      <p class="lede">Volunteers lend their AI subscription's spare capacity to five open math problems. Every result here was shared by its contributor and re-checked automatically.</p>
+      <p class="lede">Volunteers lend their AI subscription's spare capacity to open math problems. Every result here was shared by its contributor and re-checked automatically.</p>
       <div class="cta">
         <a class="btn primary" href="https://github.com/ervin-macic/math-at-home">Get the app</a>
         <a class="btn" href="https://github.com/ervin-macic/math-at-home-hub">How the board works</a>
@@ -144,7 +146,7 @@
   </section>
 
   <section aria-labelledby="problems-title">
-    <div class="head"><div><h2 id="problems-title">The five problems</h2><div class="note">Easiest first. The record is the best known result; the community best is the best checked result shared here.</div></div></div>
+    <div class="head"><div><h2 id="problems-title">The problems</h2><div class="note">Easiest first, each with why it matters. The record is the best known result; the community best is the best checked result shared here.</div></div></div>
     <div class="ladder" id="problems"></div>
   </section>
 
@@ -290,13 +292,41 @@
         safeUrl(f.issue_url) ? el('a', { href: safeUrl(f.issue_url) }, 'Details') : null))));
   }
 
+  // Records that move faster than this board are read live from their public
+  // source; only an exact fraction and a pull-request number are used.
+  const SUP = { '-': '⁻', '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' };
+  function sci(value) {
+    const [mant, exp] = value.toExponential(6).split('e');
+    const m = mant.replace(/\.?0+$/, '');
+    const e = String(Number(exp));
+    return e === '0' ? m : `${m} × 10${[...e].map((c) => SUP[c] || c).join('')}`;
+  }
+  function liveRecord(p, span) {
+    const src = p.live_record;
+    if (!src || src.kind !== 'integer-mult-bounds' || typeof src.raw !== 'string' || !src.raw.startsWith('https://raw.githubusercontent.com/')) return;
+    fetch(src.raw, { cache: 'no-store' })
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error(String(response.status)))))
+      .then((data) => {
+        const match = /^\s*(\d{1,60})\s*\/\s*(\d{1,60})\s*$/.exec(String((data && data.kappa) || ''));
+        if (!match || /^0+$/.test(match[2])) return;
+        const value = Number(match[1]) / Number(match[2]);
+        if (!(value > 0 && value < 1)) return;
+        const pr = Number.isInteger(data.source_pr) && data.source_pr > 0 && data.source_pr < 1e7 ? data.source_pr : null;
+        span.replaceChildren(`${p.known} · `, el('span', { class: 'live' }, 'live'), ` record κ = ${sci(value)}${pr ? ` (PR #${pr})` : ''}`);
+      })
+      .catch(() => {});
+  }
   function renderProblems() {
-    document.getElementById('problems').replaceChildren(...board.problems.map((p) => el('div', { class: 'problem' },
+    document.getElementById('problems').replaceChildren(...board.problems.map((p) => {
+      const known = el('span', { class: 'known' }, `${p.known} · record ${p.record.value} (${[p.record.holder, p.record.date].filter(Boolean).join(', ')})`);
+      liveRecord(p, known);
+      return el('div', { class: 'problem' },
       el('div', { class: 'n', style: `--mix:${MIX[p.tier] || '30%'}` }, p.rank),
-      el('div', {}, el('b', {}, p.title), el('span', { class: 'known' }, `${p.known} · record ${p.record.value} (${p.record.holder}, ${p.record.date})`)),
+      el('div', {}, el('b', {}, p.title), p.summary ? el('span', { class: 'why' }, p.summary) : null, known),
       el('div', { class: 'side' },
         p.best ? el('div', {}, 'Community best ', el('span', { class: 'value', title: String(p.best.value) }, short(p.best.value))) : el('div', {}, 'No checked result yet'),
-        el('div', {}, `${p.shifts} shift${p.shifts === 1 ? '' : 's'} · ${p.contributors} contributor${p.contributors === 1 ? '' : 's'}`)))));
+        el('div', {}, `${p.shifts} shift${p.shifts === 1 ? '' : 's'} · ${p.contributors} contributor${p.contributors === 1 ? '' : 's'}`)));
+    }));
   }
 
   function renderFeed() {

@@ -66,6 +66,19 @@ def _better(problem: dict, candidate, current) -> bool:
     return False
 
 
+
+def _live_source(problem: dict) -> dict | None:
+  """Where the page can read a record that moves faster than the catalog (public data only)."""
+  config = problem.get("live_record") or {}
+  if config.get("kind") != "integer-mult-bounds" or not config.get("repo") or not config.get("path"):
+    return None
+  return {
+    "kind": config["kind"],
+    "raw": f"https://raw.githubusercontent.com/{config['repo']}/{config.get('branch', 'main')}/{config['path']}",
+    "page": f"https://github.com/{config['repo']}",
+    "tracker": config.get("tracker"),
+  }
+
 def build(root: Path = ROOT, now: datetime | None = None) -> dict:
   now = now or datetime.now(UTC)
   records = []
@@ -124,6 +137,8 @@ def build(root: Path = ROOT, now: datetime | None = None) -> dict:
       "tier": problem["tier"],
       "known": problem["known"],
       "record": problem["record"],
+      "summary": (problem.get("significance") or {}).get("summary"),
+      "live_record": _live_source(problem),
       "shifts": len(mine),
       "contributors": len({r["login"].lower() for r in mine}),
       "minutes": round(sum(float(r["shift"]["minutes"]) for r in mine), 1),

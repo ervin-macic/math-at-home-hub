@@ -23,6 +23,13 @@
       "area": "Information theory · graph theory",
       "hook": "How many error-free messages per symbol can you send through a channel that confuses each of seven symbols with its two neighbours?",
       "statement": "Let C₇ be the cycle on 7 vertices. Two words of length k over {0,…,6} are confusable when, in every position, their symbols are equal or neighbours on the cycle (this is the strong product C₇^⊠k). The Shannon capacity is Θ(C₇) = sup over k of α(C₇^⊠k)^(1/k), where α(C₇^⊠k) is the largest set of pairwise non-confusable words. Its exact value is unknown.",
+      "significance": {
+        "summary": "A founding question of information theory, and the smallest case nobody can compute.",
+        "paragraphs": [
+          "In 1956 Shannon asked how much information a noisy channel can carry with zero chance of error. When the channel's possible confusions form a graph, the answer is that graph's Shannon capacity, one of the founding quantities of information theory. Even now nobody knows how hard it is to compute in general.",
+          "Lovász solved the 5‑cycle in 1979 (the answer is √5) by inventing the theta function, a cornerstone of semidefinite programming and combinatorial optimisation ever since. The 7‑cycle is the smallest cycle still open: its capacity lies between 3.2588 and Lovász's bound of 3.3177. Each new lower bound narrows that gap and tests whether his method is sharp here or a genuinely new idea is needed."
+        ]
+      },
       "known": "3.25883262 ≤ Θ(C₇) ≤ 3.3177",
       "record": {
         "label": "Best lower bound",
@@ -63,16 +70,54 @@
       ],
       "credit": "Record a confirmed bound in Terence Tao's optimization-constants repository (constant C9), disclosing the AI assistance, and publish the certificate (GitHub or Zenodo) so anyone can replay it.",
       "recent": [
-        {"date": "Jul 2026", "text": "Itty, Rosin, Carstensen, Reichman: 134,753 words in C₇^⊠10 → 3.258020"},
-        {"date": "Jul 2026", "text": "Gao: recursive product of the 367-word gadget → 3.258789"},
-        {"date": "Jul 2026", "text": "Buys, Polak, Zuiddam: valid-tuple products, Lean-verified → 3.258805"},
-        {"date": "Aug 2026", "text": "Tandon: heterogeneous recursion → 3.25883262"}
+        {
+          "date": "Jul 2026",
+          "text": "Itty, Rosin, Carstensen, Reichman: 134,753 words in C₇^⊠10 → 3.258020"
+        },
+        {
+          "date": "Jul 2026",
+          "text": "Gao: recursive product of the 367-word gadget → 3.258789"
+        },
+        {
+          "date": "Jul 2026",
+          "text": "Buys, Polak, Zuiddam: valid-tuple products, Lean-verified → 3.258805"
+        },
+        {
+          "date": "Aug 2026",
+          "text": "Tandon: heterogeneous recursion → 3.25883262"
+        }
+      ],
+      "reading": [
+        {
+          "label": "Shannon capacity of a graph (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Shannon_capacity_of_a_graph"
+        },
+        {
+          "label": "Lovász 1979, On the Shannon capacity of a graph",
+          "url": "https://doi.org/10.1109/TIT.1979.1055985"
+        },
+        {
+          "label": "Records table: Tao et al., optimization constants C9",
+          "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/9a.md"
+        }
       ],
       "sources": [
-        {"label": "Tao et al., optimization constants: C9", "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/9a.md"},
-        {"label": "Tandon 2026, arXiv:2608.30273", "url": "https://arxiv.org/abs/2608.30273"},
-        {"label": "Polak & Schrijver 2018, arXiv:1808.07438", "url": "https://arxiv.org/abs/1808.07438"},
-        {"label": "Buys, Polak, Zuiddam 2026, arXiv:2607.29681", "url": "https://arxiv.org/abs/2607.29681"}
+        {
+          "label": "Tao et al., optimization constants: C9",
+          "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/9a.md"
+        },
+        {
+          "label": "Tandon 2026, arXiv:2608.30273",
+          "url": "https://arxiv.org/abs/2608.30273"
+        },
+        {
+          "label": "Polak & Schrijver 2018, arXiv:1808.07438",
+          "url": "https://arxiv.org/abs/1808.07438"
+        },
+        {
+          "label": "Buys, Polak, Zuiddam 2026, arXiv:2607.29681",
+          "url": "https://arxiv.org/abs/2607.29681"
+        }
       ]
     },
     {
@@ -84,6 +129,13 @@
       "area": "Additive combinatorics · number theory",
       "hook": "How large can a set of whole numbers up to N be if no two of them differ by a perfect square?",
       "statement": "Let r(N) be the largest size of a set A ⊆ {1,…,N} in which no two elements differ by a non-zero perfect square. Furstenberg and Sárközy proved r(N) = o(N). The best exponent c with r(N) ≥ N^(c − o(1)) is unknown: it lies between 0.75806770413 and 1.",
+      "significance": {
+        "summary": "A model case of when large sets must contain patterns, with a vast gap between what is proven and what is achieved.",
+        "paragraphs": [
+          "How large can a set of numbers up to N be if no two of them differ by a perfect square? Furstenberg, using ergodic theory, and Sárközy, using Fourier analysis, proved in the late 1970s that such sets take up a vanishing share of the numbers. It is a basic case of a broad theme in number theory and combinatorics: big sets cannot avoid arithmetic patterns.",
+          "The gap between the bounds is enormous. Green and Sawhney (2024) proved that such a set has at most about N/e^((log N)^c) elements for any c < 1/4, while the best constructions reach only about N^0.758. Nobody knows which end is closer to the truth; better constructions narrow the gap from below and show how far upper-bound methods could ever go."
+        ]
+      },
       "known": "0.75806770413 ≤ c ≤ 1",
       "record": {
         "label": "Best exponent",
@@ -123,27 +175,188 @@
       ],
       "credit": "Record a confirmed bound in Tao's optimization-constants repository (constant C4b) with an AI-use disclosure; the 2026 records were also registered with Lean proofs in the Palomar registry.",
       "recent": [
-        {"date": "Aug 2026", "text": "Krachun: Paley chains glued by CRT → 0.752796, first past ¾"},
-        {"date": "Aug 2026", "text": "Jones: composite moduli 235 and 299 → 0.753742 (Lean)"},
-        {"date": "Sep 2026", "text": "Naslund: interval-moment criterion → 0.75806746 (Lean)"},
-        {"date": "Sep 2026", "text": "Jones: re-allocated components → 0.75806770413 (Lean)"}
+        {
+          "date": "Aug 2026",
+          "text": "Krachun: Paley chains glued by CRT → 0.752796, first past ¾"
+        },
+        {
+          "date": "Aug 2026",
+          "text": "Jones: composite moduli 235 and 299 → 0.753742 (Lean)"
+        },
+        {
+          "date": "Sep 2026",
+          "text": "Naslund: interval-moment criterion → 0.75806746 (Lean)"
+        },
+        {
+          "date": "Sep 2026",
+          "text": "Jones: re-allocated components → 0.75806770413 (Lean)"
+        }
+      ],
+      "reading": [
+        {
+          "label": "Furstenberg–Sárközy theorem (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Furstenberg%E2%80%93S%C3%A1rk%C3%B6zy_theorem"
+        },
+        {
+          "label": "Green & Sawhney 2024, New bounds for the Furstenberg–Sárközy theorem",
+          "url": "https://arxiv.org/abs/2411.17448"
+        },
+        {
+          "label": "Records table: Tao et al., optimization constants C4b",
+          "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/4b.md"
+        }
       ],
       "sources": [
-        {"label": "Tao et al., optimization constants: C4b", "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/4b.md"},
-        {"label": "Krachun 2026, arXiv:2608.01325", "url": "https://arxiv.org/abs/2608.01325"},
-        {"label": "Naslund 2026, certificates and Lean", "url": "https://github.com/enaslund/sarkozy-lower-bound-0.758"},
-        {"label": "Green & Sawhney 2025, arXiv:2411.17448", "url": "https://arxiv.org/abs/2411.17448"}
+        {
+          "label": "Tao et al., optimization constants: C4b",
+          "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/4b.md"
+        },
+        {
+          "label": "Krachun 2026, arXiv:2608.01325",
+          "url": "https://arxiv.org/abs/2608.01325"
+        },
+        {
+          "label": "Naslund 2026, certificates and Lean",
+          "url": "https://github.com/enaslund/sarkozy-lower-bound-0.758"
+        },
+        {
+          "label": "Green & Sawhney 2025, arXiv:2411.17448",
+          "url": "https://arxiv.org/abs/2411.17448"
+        }
+      ]
+    },
+    {
+      "id": "integer-multiplication",
+      "rank": 3,
+      "tier": 2,
+      "title": "Integer multiplication below n log n",
+      "short": "Faster multiplication",
+      "area": "Algorithms · complexity theory",
+      "hook": "How fast can two huge numbers be multiplied? A 2026 preprint claims a little faster than n log n, and the race is on to widen the gap.",
+      "statement": "Multiply two n-bit integers on a multitape Turing machine. Schönhage and Strassen (1971) reached O(n log n log log n) and proposed n log n as optimal; Harvey and van der Hoeven reached O(n log n) in 2019. OpenAI's preprint Integer multiplication below n log n (dated 23 September 2026, released 6 October) claims O(n (log n)^(1−κ)) with κ = 2⁻¹⁸². Inside its framework κ is set by finite linear networks and exact parameters, and a larger κ is a stronger theorem. How large can κ be?",
+      "significance": {
+        "summary": "Multiplying big numbers may be cheaper than anyone believed since 1971; a 2026 race is testing by how much.",
+        "paragraphs": [
+          "Multiplying huge numbers is the basic cost behind computer algebra, high-precision computing (such as record digits of π) and much research in number theory and cryptography, and operations like division and square roots cost only a constant multiple of it. In 1971 Schönhage and Strassen proposed that about n log n steps is the best possible for n‑digit numbers, and in 2019 Harvey and van der Hoeven reached exactly n log n, which seemed to close the story.",
+          "OpenAI's preprint claims to beat n log n on multitape Turing machines, the standard model for this question, by a power of the logarithm: κ = 2⁻¹⁸². It does not contradict the conjectured n log n lower bound for Boolean circuits, which concerns a different model. A community race has since raised κ from 2⁻¹⁸² to about 2⁻¹¹. Each larger κ is a stronger theorem, and finding a limit to κ, or an error in the framework, would matter just as much.",
+          "Keep in mind: there is no practical speed-up, because the constants are astronomically large; the original proof is not yet peer reviewed; and the community records are conditional on it, backed by exact finite certificates and maintainer review rather than formal proofs."
+        ]
+      },
+      "known": "Time O(n (log n)^(1−κ)) for some κ > 0, conditional on the 2026 preprint",
+      "record": {
+        "label": "Best exponent saving κ",
+        "value": "4.609169 × 10⁻⁴",
+        "direction": "raise",
+        "holder": "icekylinx, PR #144",
+        "date": "9 Oct 2026",
+        "note": "Paired cubes and shared cores, selected by the integer-mult-bounds maintainer. Conditional on the OpenAI framework; checked by exact finite certificates and written review, not a formal proof."
+      },
+      "live_record": {
+        "kind": "integer-mult-bounds",
+        "repo": "CrocSwap/integer-mult-bounds",
+        "branch": "main",
+        "path": "certificates/selected-result.json",
+        "tracker": "https://beyond-n-log-n.netlify.app/"
+      },
+      "target": "Any κ larger than the current maintainer-selected record, given as an exact fraction, with exact certificates and generator code that the repository's reproducible checks accept and a written argument for each changed step.",
+      "discovery": "A larger κ that survives independent review (in practice, selection by the integer-mult-bounds maintainer), or a confirmed error in a step of the framework: a correct refutation matters as much as an improvement.",
+      "side_quest": "Independently reproduce the selected certificate and audit one proof obligation, or formalise one of its finite checks in Lean. Reproductions and well-scoped negative results are welcomed upstream.",
+      "why_tier": "The record has risen eleven times since 6 October, mostly in small certified steps, so a useful gain is realistic. But the framework is new and very technical, the whole result rests on an unrefereed preprint, and many people are racing.",
+      "verifier": {
+        "kind": "review",
+        "note": "No built-in checker: each construction brings its own certificate format and verifier, and the community board never runs contributed code. A claim is confirmed by independent review, in practice the integer-mult-bounds maintainer selecting it."
+      },
+      "certificate_help": "Submit a claim: statement = the construction in two or three sentences; value = κ as an exact fraction (for example 4609169/10000000000); files = the certificate JSON, generator scripts and proof note in your workspace; check_command = the one command that reproduces the check (for example make paired-cube-verify).",
+      "lanes": [
+        {
+          "id": "parameters",
+          "title": "Exact parameter refinement",
+          "brief": "Shallow-clone CrocSwap/integer-mult-bounds into the workspace (git clone --depth 1) and start from the selected construction in certificates/selected-result.json. Re-optimise its exact rational parameters within the retained hypotheses, recompute κ with the repository's own Python checks (make paired-cube-verify needs only Python), and report the margin gained or why none is left."
+        },
+        {
+          "id": "networks",
+          "title": "Smaller finite networks",
+          "brief": "κ comes from finite linear networks for the bit and complex branches. Search for networks with fewer charged roles or more sharing, emit exact certificates in the repository's format and run its verifier on them. Stay within your CPU budget and keep the workspace under 300 MB."
+        },
+        {
+          "id": "audit",
+          "title": "Independent audit",
+          "brief": "Reproduce the selected result from a clean shallow clone with its make target, then check one proof obligation in the note against its certificate. Record exactly what you verified and any gap or error. The full suite needs a C++ compiler and Boost, which may be missing: say which checks you could not run."
+        },
+        {
+          "id": "combine",
+          "title": "Combine open ideas",
+          "brief": "Read the open pull requests and docs/research/contribution-review.md, find two compatible ideas that have not been combined yet, and test the combination with exact certificates."
+        }
+      ],
+      "credit": "Upstream credit comes from a pull request to CrocSwap/integer-mult-bounds that follows its CONTRIBUTING.md: exact certificates, regenerated patches, a note naming the work you build on, and a disclosure of AI assistance. Math@Home shifts never open pull requests; you decide whether to submit. Sharing to the Math@Home board records your claim with a timestamp and fingerprint.",
+      "recent": [
+        {
+          "date": "6 Oct 2026",
+          "text": "OpenAI's preprint: κ = 2⁻¹⁸²"
+        },
+        {
+          "date": "7 Oct 2026",
+          "text": "Colkitt's integer-mult-bounds: 2⁻¹⁰⁷, then 2⁻⁷⁸ and 2⁻⁵⁹"
+        },
+        {
+          "date": "8 Oct 2026",
+          "text": "Compact controls and compression: 2⁻³⁴ to 2⁻³⁰; community round: 5.10 × 10⁻⁵, above 2⁻¹⁵"
+        },
+        {
+          "date": "9 Oct 2026",
+          "text": "icekylinx's paired cubes (PR #144): 4.609169 × 10⁻⁴ ≈ 2⁻¹¹·⁰⁸"
+        }
+      ],
+      "reading": [
+        {
+          "label": "Quanta 2019: Mathematicians Discover the Perfect Way to Multiply",
+          "url": "https://www.quantamagazine.org/mathematicians-discover-the-perfect-way-to-multiply-20190411/"
+        },
+        {
+          "label": "Multiplication algorithm (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Multiplication_algorithm"
+        },
+        {
+          "label": "Beyond n log n: live dashboard of the κ race",
+          "url": "https://beyond-n-log-n.netlify.app/"
+        },
+        {
+          "label": "Afshani et al. 2019, Lower bounds for multiplication via network coding",
+          "url": "https://arxiv.org/abs/1902.10935"
+        }
+      ],
+      "sources": [
+        {
+          "label": "OpenAI 2026, Integer multiplication below n log n (preprint)",
+          "url": "https://github.com/openai/math/tree/main/preprints/Integer-multiplication-below-n-log-n-September-23-2026"
+        },
+        {
+          "label": "CrocSwap/integer-mult-bounds: current record and certificates",
+          "url": "https://github.com/CrocSwap/integer-mult-bounds"
+        },
+        {
+          "label": "Harvey & van der Hoeven 2021, Integer multiplication in time O(n log n)",
+          "url": "https://doi.org/10.4007/annals.2021.193.2.4"
+        }
       ]
     },
     {
       "id": "no-three-in-line",
-      "rank": 3,
+      "rank": 4,
       "tier": 3,
       "title": "No three in a line",
       "short": "No-three-in-line",
       "area": "Discrete geometry · computation",
       "hook": "Can you place 2n dots on an n × n grid so that no three of them lie on one straight line?",
       "statement": "At most 2n points of the n × n grid can be chosen with no three collinear, since each row holds at most two. Configurations with exactly 2n points are known for every n ≤ 76 except n = 75. Whether they exist for all n is open; Guy and Kelly conjectured that they do not for large n.",
+      "significance": {
+        "summary": "A century-old puzzle: computers decide how far a perfect pattern goes before it must break.",
+        "paragraphs": [
+          "Dudeney asked in 1917 how many points fit on an n × n grid with no three in a straight line. Each row holds at most two, so 2n is the ceiling, and it is reached for every grid up to 76 except 75. Yet Guy and Kelly's heuristic, corrected in 2004, predicts only about 1.81·n points for very large grids, so the perfect 2n pattern should eventually fail. Nobody knows where.",
+          "It is a classic of discrete geometry and a proving ground for SAT solvers and symmetry reduction: each new grid size measures how far exhaustive computation can reach, and anyone can check a solution in seconds."
+        ]
+      },
       "known": "2n points known for every n ≤ 76 except 75",
       "record": {
         "label": "Largest grid solved",
@@ -159,7 +372,9 @@
       "why_tier": "No new mathematics is needed and every answer is checked in seconds, but the 2026 SAT campaigns that reached n = 76 left n = 75 unsolved.",
       "verifier": {
         "kind": "no_three_in_line",
-        "open_n": [75],
+        "open_n": [
+          75
+        ],
         "open_from": 77,
         "max_n": 400
       },
@@ -183,27 +398,72 @@
       ],
       "credit": "Submit the configuration to Achim Flammenkamp's no-three-in-line database, which lists every discoverer by name.",
       "recent": [
-        {"date": "May 2026", "text": "Prellberg: all 118,057 solutions for n = 20 (GPU)"},
-        {"date": "Jun 2026", "text": "Heule: n = 72 by SAT (he also found 70, 71 and 73 this year)"},
-        {"date": "Jul 2026", "text": "Prellberg: n = 74"},
-        {"date": "Aug 2026", "text": "Heule: n = 76, the largest known"}
+        {
+          "date": "May 2026",
+          "text": "Prellberg: all 118,057 solutions for n = 20 (GPU)"
+        },
+        {
+          "date": "Jun 2026",
+          "text": "Heule: n = 72 by SAT (he also found 70, 71 and 73 this year)"
+        },
+        {
+          "date": "Jul 2026",
+          "text": "Prellberg: n = 74"
+        },
+        {
+          "date": "Aug 2026",
+          "text": "Heule: n = 76, the largest known"
+        }
+      ],
+      "reading": [
+        {
+          "label": "No-three-in-line problem (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/No-three-in-line_problem"
+        },
+        {
+          "label": "Epoch AI: the no-three-in-line problem",
+          "url": "https://epoch.ai/frontiermath/open-problems/no-three-in-line"
+        },
+        {
+          "label": "Flammenkamp's table of known solutions",
+          "url": "https://wwwhomes.uni-bielefeld.de/achim/no3in/table.html"
+        }
       ],
       "sources": [
-        {"label": "Flammenkamp's no-three-in-line database", "url": "https://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html"},
-        {"label": "Summary table (updated 2026-09-11)", "url": "https://wwwhomes.uni-bielefeld.de/achim/no3in/table.html"},
-        {"label": "Epoch AI open problem page", "url": "https://epoch.ai/frontiermath/open-problems/no-three-in-line"},
-        {"label": "Constraint programming for no-three-in-line, arXiv:2602.07751", "url": "https://arxiv.org/abs/2602.07751"}
+        {
+          "label": "Flammenkamp's no-three-in-line database",
+          "url": "https://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html"
+        },
+        {
+          "label": "Summary table (updated 2026-09-11)",
+          "url": "https://wwwhomes.uni-bielefeld.de/achim/no3in/table.html"
+        },
+        {
+          "label": "Epoch AI open problem page",
+          "url": "https://epoch.ai/frontiermath/open-problems/no-three-in-line"
+        },
+        {
+          "label": "Constraint programming for no-three-in-line, arXiv:2602.07751",
+          "url": "https://arxiv.org/abs/2602.07751"
+        }
       ]
     },
     {
       "id": "lonely-runner",
-      "rank": 4,
+      "rank": 5,
       "tier": 4,
       "title": "The lonely runner conjecture",
       "short": "Lonely runner",
       "area": "Diophantine approximation · computer-assisted proof",
       "hook": "Runners circle a track at different constant speeds. Does every runner, at some moment, end up far from all the others?",
       "statement": "Wills's conjecture: for any non-zero integers v₁,…,v_k there is a real t with ‖t·vᵢ‖ ≥ 1/(k+1) for every i, where ‖x‖ is the distance from x to the nearest integer. With k speeds this is the case of k + 1 runners. It is now proven for up to 15 runners (k ≤ 14), all by computer-assisted proofs since 2025.",
+      "significance": {
+        "summary": "A simple race-track puzzle that turns out to be equivalent to deep questions across mathematics.",
+        "paragraphs": [
+          "Runners with different constant speeds circle a track of length 1. Does each runner, at some moment, end up at least 1/n away from all the others, where n is the number of runners? Wills asked it in 1967 in number theory (approximating real numbers by fractions), and Cusick independently in 1973 as a question about lines of sight blocked by obstacles.",
+          "The same statement reappears in questions about colouring graphs defined by distances and about flows in networks (Bienia, Goddyn and others, 1998), so a proof would ripple through several areas. Stuck at seven runners from 2008, it has advanced to fifteen since 2025 through computer-assisted proofs."
+        ]
+      },
       "known": "Proven for up to 15 runners",
       "record": {
         "label": "Proven up to",
@@ -241,27 +501,68 @@
       ],
       "credit": "Write it up for arXiv with code and certificates archived (for example on Zenodo), as each 2025–2026 proof did.",
       "recent": [
-        {"date": "Sep 2025", "text": "Rosenfeld: 8 runners"},
-        {"date": "Nov 2025", "text": "Trakulthongchai: 9 and 10 runners"},
-        {"date": "Apr 2026", "text": "Sungkawichai & Trakulthongchai: 11, 12 and 13 runners"},
-        {"date": "Sep 2026", "text": "Allikvere: 14 and 15 runners"}
+        {
+          "date": "Sep 2025",
+          "text": "Rosenfeld: 8 runners"
+        },
+        {
+          "date": "Nov 2025",
+          "text": "Trakulthongchai: 9 and 10 runners"
+        },
+        {
+          "date": "Apr 2026",
+          "text": "Sungkawichai & Trakulthongchai: 11, 12 and 13 runners"
+        },
+        {
+          "date": "Sep 2026",
+          "text": "Allikvere: 14 and 15 runners"
+        }
+      ],
+      "reading": [
+        {
+          "label": "Quanta 2026: New Strides Made on Deceptively Simple ‘Lonely Runner’ Problem",
+          "url": "https://www.quantamagazine.org/new-strides-made-on-deceptively-simple-lonely-runner-problem-20260306/"
+        },
+        {
+          "label": "Lonely runner conjecture (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Lonely_runner_conjecture"
+        }
       ],
       "sources": [
-        {"label": "Allikvere 2026, arXiv:2609.02604", "url": "https://arxiv.org/abs/2609.02604"},
-        {"label": "Sungkawichai & Trakulthongchai 2026, arXiv:2604.23906", "url": "https://arxiv.org/abs/2604.23906"},
-        {"label": "Rosenfeld 2025, arXiv:2509.14111", "url": "https://arxiv.org/abs/2509.14111"},
-        {"label": "Lonely runner conjecture (Wikipedia)", "url": "https://en.wikipedia.org/wiki/Lonely_runner_conjecture"}
+        {
+          "label": "Allikvere 2026, arXiv:2609.02604",
+          "url": "https://arxiv.org/abs/2609.02604"
+        },
+        {
+          "label": "Sungkawichai & Trakulthongchai 2026, arXiv:2604.23906",
+          "url": "https://arxiv.org/abs/2604.23906"
+        },
+        {
+          "label": "Rosenfeld 2025, arXiv:2509.14111",
+          "url": "https://arxiv.org/abs/2509.14111"
+        },
+        {
+          "label": "Lonely runner conjecture (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Lonely_runner_conjecture"
+        }
       ]
     },
     {
       "id": "hadwiger-nelson",
-      "rank": 5,
+      "rank": 6,
       "tier": 5,
       "title": "Colouring the plane",
       "short": "Hadwiger–Nelson",
       "area": "Geometric graph theory",
       "hook": "How many colours do you need to paint the plane so that no two points exactly one unit apart share a colour?",
       "statement": "The chromatic number of the plane χ(ℝ²) is the least number of colours with which every point of the plane can be coloured so that points at distance exactly 1 always differ. Since Aubrey de Grey's 2018 breakthrough it is known that 5 ≤ χ(ℝ²) ≤ 7.",
+      "significance": {
+        "summary": "One of the simplest unsolved questions in geometry; any progress would be front-page mathematics.",
+        "paragraphs": [
+          "How many colours does it take to paint the plane so that any two points exactly one unit apart get different colours? For decades the answer was known only to lie between 4 and 7. In 2018 Aubrey de Grey, an amateur mathematician, proved it is at least 5 with a computer-checked network of 1,581 points, and the Polymath16 project then shrank such networks to a few hundred points.",
+          "The question links geometry, combinatorics and logic: the correct value may even depend on the axioms of set theory. A network of unit distances that needs 6 colours would be a landmark."
+        ]
+      },
       "known": "5 ≤ χ(ℝ²) ≤ 7",
       "record": {
         "label": "Known range",
@@ -299,16 +600,54 @@
       ],
       "credit": "Smaller 5-chromatic graphs are recorded by the Polymath16 project; a 6-chromatic graph would be a landmark paper (arXiv, Geombinatorics).",
       "recent": [
-        {"date": "2018", "text": "de Grey: a 1,581-vertex unit-distance graph needs 5 colours"},
-        {"date": "2018", "text": "Heule: 553 vertices, then Polymath16 improvements"},
-        {"date": "2020", "text": "Parts: 509 vertices, the smallest known"},
-        {"date": "2026", "text": "Still 5 ≤ χ ≤ 7 in Tao's optimization-constants list (C27)"}
+        {
+          "date": "2018",
+          "text": "de Grey: a 1,581-vertex unit-distance graph needs 5 colours"
+        },
+        {
+          "date": "2018",
+          "text": "Heule: 553 vertices, then Polymath16 improvements"
+        },
+        {
+          "date": "2020",
+          "text": "Parts: 509 vertices, the smallest known"
+        },
+        {
+          "date": "2026",
+          "text": "Still 5 ≤ χ ≤ 7 in Tao's optimization-constants list (C27)"
+        }
+      ],
+      "reading": [
+        {
+          "label": "Quanta 2018: Decades-Old Graph Problem Yields to Amateur Mathematician",
+          "url": "https://www.quantamagazine.org/decades-old-graph-problem-yields-to-amateur-mathematician-20180417/"
+        },
+        {
+          "label": "Hadwiger–Nelson problem (Wikipedia)",
+          "url": "https://en.wikipedia.org/wiki/Hadwiger%E2%80%93Nelson_problem"
+        },
+        {
+          "label": "Polymath16 wiki",
+          "url": "https://michaelnielsen.org/polymath/index.php?title=Hadwiger-Nelson_problem"
+        }
       ],
       "sources": [
-        {"label": "Tao et al., optimization constants: C27", "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/27a.md"},
-        {"label": "de Grey 2018, arXiv:1804.02385", "url": "https://arxiv.org/abs/1804.02385"},
-        {"label": "Parts 2020, arXiv:2010.12665", "url": "https://arxiv.org/abs/2010.12665"},
-        {"label": "Polymath16: Hadwiger–Nelson problem", "url": "https://michaelnielsen.org/polymath/index.php?title=Hadwiger-Nelson_problem"}
+        {
+          "label": "Tao et al., optimization constants: C27",
+          "url": "https://github.com/teorth/optimizationproblems/blob/main/constants/27a.md"
+        },
+        {
+          "label": "de Grey 2018, arXiv:1804.02385",
+          "url": "https://arxiv.org/abs/1804.02385"
+        },
+        {
+          "label": "Parts 2020, arXiv:2010.12665",
+          "url": "https://arxiv.org/abs/2010.12665"
+        },
+        {
+          "label": "Polymath16: Hadwiger–Nelson problem",
+          "url": "https://michaelnielsen.org/polymath/index.php?title=Hadwiger-Nelson_problem"
+        }
       ]
     }
   ],
@@ -319,11 +658,26 @@
     "record_per_tier": 500,
     "minutes_per_point": 5,
     "ranks": [
-      {"min": 0, "name": "Volunteer"},
-      {"min": 100, "name": "Contributor"},
-      {"min": 500, "name": "Researcher"},
-      {"min": 2000, "name": "Fellow"},
-      {"min": 10000, "name": "Laureate"}
+      {
+        "min": 0,
+        "name": "Volunteer"
+      },
+      {
+        "min": 100,
+        "name": "Contributor"
+      },
+      {
+        "min": 500,
+        "name": "Researcher"
+      },
+      {
+        "min": 2000,
+        "name": "Fellow"
+      },
+      {
+        "min": 10000,
+        "name": "Laureate"
+      }
     ]
   },
   "consent": {

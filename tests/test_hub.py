@@ -168,7 +168,44 @@ class IngestTests(unittest.TestCase):
     person = board["contributors"][0]
     self.assertEqual((person["points"]["7d"], person["points"]["30d"], person["points"]["all"]), (15, 30, 30))
     self.assertEqual(board["totals"]["shifts"], 2)
-    self.assertEqual(len(board["problems"]), 5)
+    self.assertEqual(len(board["problems"]), 6)
+
+
+class NewProblemTests(unittest.TestCase):
+  """Integer multiplication below n log n: claims only, with a live record source."""
+
+  def setUp(self):
+    self.tmp = tempfile.TemporaryDirectory()
+    self.root = Path(self.tmp.name)
+
+  def tearDown(self):
+    self.tmp.cleanup()
+
+  def test_claim_on_the_multiplication_problem_waits_for_review(self):
+    problem = problems()["integer-multiplication"]
+    built = submission.build(
+      shift={"id": "s_20261009013700_ab12cd", "problem_id": problem["id"], "lane_id": "parameters",
+             "begun_at": "2026-10-09T00:37:00+00:00", "minutes": 30.0, "tokens": {"total_tokens": 900000}},
+      report={"title": "Parameter refinement of the paired-cube witness", "summary": "Re-optimised exact parameters.",
+              "details": {"learned": "The margin is tight.", "next": "Try the bit branch."}},
+      extras=[{"kind": "claim", "verdict": "pending_review",
+               "payload": {"statement": "Refined parameters give a larger kappa.", "value": "4700000/10000000000"}}],
+      problem=problem, credit_name="Ada", app_version="0.5.0",
+    )
+    outcome = ingest.process(issue(built["body"]), self.root, "2026-10-09T01:10:00+00:00")
+    ingest.write(outcome, self.root)
+    self.assertEqual(outcome["action"], "record")
+    self.assertEqual(outcome["record"]["verdict"], "pending_review")
+    self.assertEqual(outcome["record"]["points"]["result"], 0, "claims earn record points only after review")
+
+  def test_board_lists_why_it_matters_and_the_live_source(self):
+    board = build_board.build(self.root, now=datetime(2026, 10, 9, tzinfo=UTC))
+    by_id = {p["id"]: p for p in board["problems"]}
+    self.assertEqual([p["rank"] for p in board["problems"]], [1, 2, 3, 4, 5, 6])
+    self.assertTrue(all(p["summary"] for p in board["problems"]))
+    live = by_id["integer-multiplication"]["live_record"]
+    self.assertEqual(live["raw"], "https://raw.githubusercontent.com/CrocSwap/integer-mult-bounds/main/certificates/selected-result.json")
+    self.assertTrue(all(p["live_record"] is None for pid, p in by_id.items() if pid != "integer-multiplication"))
 
 
 class LeanCheckTests(unittest.TestCase):
